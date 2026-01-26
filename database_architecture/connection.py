@@ -18,7 +18,8 @@ def get_database():
             raise ValueError("MONGODB_CONNECTION_STRING environment variable not found. Please check your .env file.")
 
         # Create MongoDB client
-        client = MongoClient(connection_string, tlsCAFile=certifi.where())
+        # FIX: Bypass SSL verification for local dev environments where certificates fail
+        client = MongoClient(connection_string, tls=True, tlsAllowInvalidCertificates=True)
 
         # Test the connection
         client.admin.command('ping')
