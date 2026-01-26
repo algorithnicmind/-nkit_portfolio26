@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+backend_auth/venv/
+__pycache__/
+*.pyc
+
+# Environment Variables (Security)
+.env
+.env.local
+
+# IDEs
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build
+frontend/build/
+dist/

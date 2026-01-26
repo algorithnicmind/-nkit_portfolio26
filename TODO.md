@@ -1,0 +1,3 @@
+- [x] Replace placeholder URLs in ModernProjects.jsx with picsum.photos random images
+- [x] Replace placeholder URL in ModernAbout.jsx with a picsum.photos image
+- [x] Replace fallback placeholder URL in Softs.jsx with a picsum.photos image
