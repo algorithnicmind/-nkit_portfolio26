@@ -1,95 +1,243 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGitAlt, faReact, faHtml5, faCss3Alt, faJsSquare, faPython, faJava } from '@fortawesome/free-brands-svg-icons';
-import { faBrain, faChartLine, faSitemap, faDatabase, faNetworkWired, faComments, faFileCode } from '@fortawesome/free-solid-svg-icons';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
-const skills = [
-  {
-    name: 'Git',
-    icon: faGitAlt,
-    description: 'Version control system for tracking changes in source code during software development.',
-    color: '#f05033'
+// Professional skill data with descriptions
+const skillsRow1 = [
+  { 
+    name: 'Python', 
+    color: '#3776ab', 
+    icon: '🐍',
+    description: 'High-level programming language known for its simplicity and readability. Used extensively in AI, ML, data science, and web development.',
+    proficiency: 90,
+    projects: ['AI Chatbot', 'Data Analysis Tools', 'Web Scraping Scripts']
   },
-  {
-    name: 'React',
-    icon: faReact,
-    description: 'JavaScript library for building user interfaces, particularly single-page applications.',
-    color: '#61dafb'
+  { 
+    name: 'JavaScript', 
+    color: '#f7df1e', 
+    icon: 'JS',
+    description: 'The language of the web. Powers interactive websites, server-side applications, and modern frameworks like React.',
+    proficiency: 85,
+    projects: ['Portfolio Website', 'Interactive Dashboards', 'Node.js APIs']
   },
-  {
-    name: 'HTML',
-    icon: faHtml5,
-    description: 'Standard markup language for creating web pages and web applications.',
-    color: '#e34f26'
+  { 
+    name: 'React', 
+    color: '#61dafb', 
+    icon: '⚛️',
+    description: 'A JavaScript library for building user interfaces. Component-based architecture for scalable applications.',
+    proficiency: 85,
+    projects: ['This Portfolio', 'Admin Dashboards', 'E-commerce UIs']
   },
-  {
-    name: 'CSS',
-    icon: faCss3Alt,
-    description: 'Style sheet language used for describing the presentation of a document written in HTML.',
-    color: '#1572b6'
+  { 
+    name: 'Java', 
+    color: '#007396', 
+    icon: '☕',
+    description: 'Object-oriented programming language that runs on billions of devices. Great for enterprise and Android development.',
+    proficiency: 75,
+    projects: ['Android Apps', 'Backend Services', 'Data Structures Practice']
   },
-  {
-    name: 'Javascript',
-    icon: faJsSquare,
-    description: 'High-level, interpreted programming language that conforms to the ECMAScript specification.',
-    color: '#f7df1e'
+  { 
+    name: 'C', 
+    color: '#a8b9cc', 
+    icon: 'C',
+    description: 'Foundation of modern programming. Low-level language perfect for system programming and understanding computer architecture.',
+    proficiency: 70,
+    projects: ['System Programming', 'Algorithm Implementation', 'OS Concepts']
   },
-  {
-    name: 'Python',
-    icon: faPython,
-    description: 'High-level, interpreted programming language known for its simplicity and readability.',
-    color: '#3776ab'
+  { 
+    name: 'HTML5', 
+    color: '#e34f26', 
+    icon: '🌐',
+    description: 'Standard markup language for creating web pages. The backbone of every website on the internet.',
+    proficiency: 95,
+    projects: ['Web Pages', 'Email Templates', 'Semantic Layouts']
   },
-  {
-    name: 'Java',
-    icon: faJava,
-    description: 'Object-oriented programming language that runs on billions of devices.',
-    color: '#007396'
+  { 
+    name: 'CSS3', 
+    color: '#1572b6', 
+    icon: '🎨',
+    description: 'Style sheet language for describing web page presentation. Enables animations, layouts, and responsive design.',
+    proficiency: 90,
+    projects: ['UI Animations', 'Responsive Designs', 'Modern Layouts']
   },
-  {
-    name: 'C',
-    icon: faFileCode,
-    description: 'General-purpose programming language supporting structured programming.',
-    color: '#a8b9cc'
-  },
-  {
-    name: 'AI',
-    icon: faBrain,
-    description: 'Artificial Intelligence technologies including machine learning and neural networks.',
-    color: '#ff6b6b'
-  },
-  {
-    name: 'Machine Learning',
-    icon: faChartLine,
-    description: 'Subset of AI that enables systems to learn and improve from experience.',
-    color: '#4ecdc4'
-  },
-  {
-    name: 'DSA',
-    icon: faSitemap,
-    description: 'Data Structures and Algorithms for efficient problem-solving and code optimization.',
-    color: '#45b7d1'
-  },
-  {
-    name: 'MongoDB',
-    icon: faDatabase,
-    description: 'NoSQL document database used for building scalable applications.',
-    color: '#47a248'
-  },
-  {
-    name: 'Networking',
-    icon: faNetworkWired,
-    description: 'Computer networking concepts including protocols, routing, and network security.',
-    color: '#00d4aa'
-  },
-  {
-    name: 'Communication',
-    icon: faComments,
-    description: 'Effective communication skills for team collaboration and project management.',
-    color: '#f093fb'
-  }
 ];
+
+const skillsRow2 = [
+  { 
+    name: 'Machine Learning', 
+    color: '#4ecdc4', 
+    icon: '🤖',
+    description: 'Subset of AI that enables systems to learn and improve from experience without being explicitly programmed.',
+    proficiency: 75,
+    projects: ['Prediction Models', 'Classification Systems', 'Recommendation Engines']
+  },
+  { 
+    name: 'AI', 
+    color: '#ff6b6b', 
+    icon: '🧠',
+    description: 'Artificial Intelligence technologies including neural networks, NLP, and computer vision applications.',
+    proficiency: 70,
+    projects: ['Chatbot Development', 'Image Recognition', 'NLP Applications']
+  },
+  { 
+    name: 'MongoDB', 
+    color: '#47a248', 
+    icon: '🍃',
+    description: 'NoSQL document database for modern applications. Flexible schemas and horizontal scalability.',
+    proficiency: 80,
+    projects: ['User Authentication', 'Content Management', 'Analytics Storage']
+  },
+  { 
+    name: 'Git', 
+    color: '#f05033', 
+    icon: '📂',
+    description: 'Distributed version control system for tracking changes in source code during software development.',
+    proficiency: 85,
+    projects: ['Team Collaboration', 'Code Versioning', 'Open Source Contributions']
+  },
+  { 
+    name: 'DSA', 
+    color: '#45b7d1', 
+    icon: '📊',
+    description: 'Data Structures and Algorithms - the foundation of efficient problem-solving and code optimization.',
+    proficiency: 80,
+    projects: ['Competitive Programming', 'Interview Prep', 'Optimization Solutions']
+  },
+  { 
+    name: 'Networking', 
+    color: '#00d4aa', 
+    icon: '🌐',
+    description: 'Computer networking concepts including TCP/IP, protocols, routing, and network security fundamentals.',
+    proficiency: 70,
+    projects: ['Network Configuration', 'Security Audits', 'Protocol Analysis']
+  },
+  { 
+    name: 'Communication', 
+    color: '#f093fb', 
+    icon: '💬',
+    description: 'Effective communication skills for team collaboration, presentations, and technical documentation.',
+    proficiency: 85,
+    projects: ['Team Leadership', 'Technical Writing', 'Client Presentations']
+  },
+];
+
+// Skill Detail Modal
+const SkillModal = ({ skill, onClose }) => {
+  if (!skill) return null;
+
+  return (
+    <motion.div
+      className="skill-modal-overlay"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      onClick={onClose}
+    >
+      <motion.div
+        className="skill-modal"
+        initial={{ opacity: 0, scale: 0.9, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.9, y: 20 }}
+        transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+        onClick={(e) => e.stopPropagation()}
+        style={{ '--skill-color': skill.color }}
+      >
+        <button className="skill-modal-close" onClick={onClose}>
+          <FontAwesomeIcon icon={faTimes} />
+        </button>
+
+        <div className="skill-modal-header">
+          <div className="skill-modal-icon" style={{ background: `${skill.color}20`, borderColor: `${skill.color}40` }}>
+            <span>{skill.icon}</span>
+          </div>
+          <h3 className="skill-modal-title" style={{ color: skill.color }}>{skill.name}</h3>
+        </div>
+
+        <p className="skill-modal-description">{skill.description}</p>
+
+        <div className="skill-modal-proficiency">
+          <div className="proficiency-header">
+            <span>Proficiency</span>
+            <span style={{ color: skill.color }}>{skill.proficiency}%</span>
+          </div>
+          <div className="proficiency-bar">
+            <motion.div 
+              className="proficiency-fill"
+              initial={{ width: 0 }}
+              animate={{ width: `${skill.proficiency}%` }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              style={{ background: `linear-gradient(90deg, ${skill.color}, ${skill.color}80)` }}
+            />
+          </div>
+        </div>
+
+        <div className="skill-modal-projects">
+          <h4>Related Projects</h4>
+          <div className="project-tags">
+            {skill.projects.map((project, index) => (
+              <span 
+                key={index} 
+                className="project-tag"
+                style={{ borderColor: `${skill.color}40`, color: skill.color }}
+              >
+                {project}
+              </span>
+            ))}
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+};
+
+// Skill Card Component
+const SkillCard = ({ skill, index, onClick }) => (
+  <motion.div
+    className="skill-card"
+    initial={{ opacity: 0, scale: 0.8 }}
+    whileInView={{ opacity: 1, scale: 1 }}
+    transition={{ duration: 0.4, delay: index * 0.05 }}
+    viewport={{ once: true }}
+    whileHover={{ 
+      scale: 1.05,
+      boxShadow: `0 20px 40px -10px ${skill.color}40`
+    }}
+    whileTap={{ scale: 0.98 }}
+    onClick={() => onClick(skill)}
+    style={{ '--skill-color': skill.color }}
+  >
+    <div className="skill-icon-wrapper" style={{ background: `${skill.color}15`, borderColor: `${skill.color}30` }}>
+      <span className="skill-emoji">{skill.icon}</span>
+    </div>
+    <span className="skill-name">{skill.name}</span>
+    <span className="skill-click-hint">Click for details</span>
+    <div className="skill-glow" style={{ background: skill.color }} />
+  </motion.div>
+);
+
+// Marquee Row Component
+const MarqueeRow = ({ skills, direction = 'left', speed = 30, onSkillClick }) => {
+  const duplicatedSkills = [...skills, ...skills, ...skills, ...skills];
+  
+  return (
+    <div className="marquee-container">
+      <div 
+        className={`marquee-track ${direction === 'right' ? 'reverse' : ''}`}
+        style={{ '--duration': `${speed}s` }}
+      >
+        {duplicatedSkills.map((skill, index) => (
+          <SkillCard 
+            key={`${skill.name}-${index}`} 
+            skill={skill} 
+            index={index % skills.length}
+            onClick={onSkillClick}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
 
 const ModernSkills = () => {
   const [selectedSkill, setSelectedSkill] = useState(null);
@@ -98,72 +246,47 @@ const ModernSkills = () => {
     setSelectedSkill(skill);
   };
 
-  const handleMouseOut = () => {
+  const handleCloseModal = () => {
     setSelectedSkill(null);
   };
 
-  // Duplicate skills for seamless loop
-  const duplicatedSkills = [...skills, ...skills];
-
   return (
-    <section className="modern-skills-section" id="skills">
+    <section className="skills-section-modern" id="skills">
       <div className="container">
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="skills-header"
+          className="skills-header-modern"
         >
           <h2 className="section-title">
             Skills & Technologies
           </h2>
-          <p className="section-subtitle">
-            Proficient in modern web development, programming languages, and emerging technologies
+          <p className="section-subtitle-skills">
+            Proficient in modern development tools, programming languages, and emerging technologies
           </p>
         </motion.div>
-
-        {/* Skills Horizontal Scroll */}
-        <div className="skills-horizontal-list" onMouseLeave={handleMouseOut}>
-          <div className="skills-scroll-container">
-            {duplicatedSkills.map((skill, index) => (
-              <motion.div
-                key={`${skill.name}-${index}`}
-                initial={{ opacity: 0, x: 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: (index % skills.length) * 0.1 }}
-                viewport={{ once: true }}
-                className="skill-item"
-                onClick={() => handleSkillClick(skill)}
-              >
-                <div className="skill-content">
-                  <FontAwesomeIcon
-                    icon={skill.icon}
-                    className="skill-icon"
-                    style={{ color: selectedSkill?.name === skill.name ? skill.color : '#9ca3af' }}
-                  />
-                  <button
-                    type="button"
-                    className={`skill-link ${selectedSkill?.name === skill.name ? 'selected' : ''}`}
-                  >
-                    {skill.name}
-                  </button>
-                  <p className="skill-hint">Click to learn more</p>
-                </div>
-                {selectedSkill?.name === skill.name && (
-                  <div className="skill-description">
-                    {skill.description}
-                  </div>
-                )}
-              </motion.div>
-            ))}
-          </div>
-        </div>
-
       </div>
+
+      {/* Marquee Rows - Full Width */}
+      <div className="skills-marquee-wrapper">
+        <MarqueeRow skills={skillsRow1} direction="left" speed={35} onSkillClick={handleSkillClick} />
+        <MarqueeRow skills={skillsRow2} direction="right" speed={40} onSkillClick={handleSkillClick} />
+      </div>
+
+      {/* Gradient Overlays */}
+      <div className="marquee-fade-left" />
+      <div className="marquee-fade-right" />
+
+      {/* Skill Detail Modal */}
+      <AnimatePresence>
+        {selectedSkill && (
+          <SkillModal skill={selectedSkill} onClose={handleCloseModal} />
+        )}
+      </AnimatePresence>
     </section>
   );
-
 };
 
 export default ModernSkills;

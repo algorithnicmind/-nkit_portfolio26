@@ -16,7 +16,7 @@ import {
     faBars
 } from '@fortawesome/free-solid-svg-icons';
 
-const FloatingDock = ({ toggleChatbot, toggleLogin, adminUser, onLogout, onOpenAnalytics }) => {
+const FloatingDock = ({ toggleChatbot, toggleLogin, adminUser, onLogout }) => {
     const location = useLocation();
     const navigate = useNavigate();
     const [mobileOpen, setMobileOpen] = useState(false);
@@ -50,7 +50,7 @@ const FloatingDock = ({ toggleChatbot, toggleLogin, adminUser, onLogout, onOpenA
 
     const actionItems = adminUser
         ? [
-            { id: 'analytics', icon: faChartLine, label: 'Analytics', action: onOpenAnalytics },
+            { id: 'analytics', icon: faChartLine, label: 'Analytics', type: 'link', path: '/analytics' },
             { id: 'logout', icon: faSignOutAlt, label: 'Logout', action: onLogout },
             { id: 'chatbot', icon: faComments, label: 'Chat', action: toggleChatbot },
         ]

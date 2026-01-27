@@ -17,13 +17,12 @@ import Footer from './components/Footer';
 import Softs from './components/Softs';
 import Chatbot from './components/Chatbot';
 import LoginModal from './components/LoginModal';
-import AnalyticsDashboard from './components/AnalyticsDashboard';
+import AnalyticsPage from './components/AnalyticsPage';
 
 
 function App() {
   const [isChatbotOpen, setIsChatbotOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
-  const [isAnalyticsOpen, setIsAnalyticsOpen] = useState(false);
   const [adminUser, setAdminUser] = useState(null);
 
   const toggleLogin = () => {
@@ -134,9 +133,7 @@ function App() {
               <section id="educations" className="educations-section">
                 <Educations />
               </section>
-              <section id="skills" className="modern-skills-section">
-                <ModernSkills />
-              </section>
+              <ModernSkills />
               <section id="projects" className="modern-projects-section">
                 <ModernProjects />
               </section>
@@ -150,13 +147,17 @@ function App() {
               <Softs adminUser={adminUser} />
             </Suspense>
           } />
+          <Route path="/analytics" element={
+            <Suspense fallback={<div className="container" style={{ padding: '3rem 0', textAlign: 'center' }}>Loading...</div>}>
+              <AnalyticsPage adminUser={adminUser} />
+            </Suspense>
+          } />
         </Routes>
       </div>
       <Suspense fallback={null}>
         <Footer />
         <Chatbot isOpen={isChatbotOpen} setIsOpen={setIsChatbotOpen} adminUser={adminUser} />
         <LoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} onLogin={setAdminUser} />
-        <AnalyticsDashboard isOpen={isAnalyticsOpen} onClose={() => setIsAnalyticsOpen(false)} />
       </Suspense>
       <VisitorTracker />
       <FloatingDock
@@ -164,7 +165,6 @@ function App() {
         toggleLogin={toggleLogin}
         adminUser={adminUser}
         onLogout={handleLogout}
-        onOpenAnalytics={() => setIsAnalyticsOpen(true)}
       />
     </div>
   );
