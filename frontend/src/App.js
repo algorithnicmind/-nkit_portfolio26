@@ -121,25 +121,13 @@ function App() {
         <Routes>
           <Route path="/" element={
             <>
-              <section id="hero" className="modern-hero-section">
-                <ModernHero />
-              </section>
-              <section id="about" className="modern-about-section">
-                <ModernAbout />
-              </section>
-              <section id="experience" className="experience-section">
-                <Experience />
-              </section>
-              <section id="educations" className="educations-section">
-                <Educations />
-              </section>
+              <ModernHero />
+              <ModernAbout />
+              <Experience />
+              <Educations />
               <ModernSkills />
-              <section id="projects" className="modern-projects-section">
-                <ModernProjects />
-              </section>
-              <section id="contact" className="modern-contact-section">
-                <ModernContact />
-              </section>
+              <ModernProjects />
+              <ModernContact />
             </>
           } />
           <Route path="/softs" element={

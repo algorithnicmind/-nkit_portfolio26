@@ -200,19 +200,14 @@ const SkillCard = ({ skill, index, onClick }) => (
     transition={{ duration: 0.4, delay: index * 0.05 }}
     viewport={{ once: true }}
     whileHover={{ 
-      scale: 1.05,
-      boxShadow: `0 20px 40px -10px ${skill.color}40`
+      scale: 1.15,
     }}
-    whileTap={{ scale: 0.98 }}
+    whileTap={{ scale: 0.95 }}
     onClick={() => onClick(skill)}
-    style={{ '--skill-color': skill.color }}
   >
-    <div className="skill-icon-wrapper" style={{ background: `${skill.color}15`, borderColor: `${skill.color}30` }}>
-      <span className="skill-emoji">{skill.icon}</span>
+    <div className="skill-icon-wrapper">
+      <span className="skill-emoji" style={{ color: skill.color }}>{skill.icon}</span>
     </div>
-    <span className="skill-name">{skill.name}</span>
-    <span className="skill-click-hint">Click for details</span>
-    <div className="skill-glow" style={{ background: skill.color }} />
   </motion.div>
 );
 
@@ -276,8 +271,7 @@ const ModernSkills = () => {
       </div>
 
       {/* Gradient Overlays */}
-      <div className="marquee-fade-left" />
-      <div className="marquee-fade-right" />
+
 
       {/* Skill Detail Modal */}
       <AnimatePresence>

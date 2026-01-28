@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faCloudUploadAlt, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
-import '../styles.css';
+import './CreatePostModal.css';
 
 const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
     const [category, setCategory] = useState('Motivation');
@@ -127,7 +127,7 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
                                 <option value="Hackathon">Hackathon 🚀</option>
                                 <option value="Seminar">Seminar 🎤</option>
                                 <option value="Webinar">Webinar 💻</option>
-                                <option value="Project">Project 🛠️</option>
+                                <option value="Research">Research 🛠️</option>
                             </select>
                         </div>
 

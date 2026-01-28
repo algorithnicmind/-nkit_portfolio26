@@ -1,80 +1,122 @@
-# Portfolio Project Setup Guide
+# 🚀 Ankit Sahoo - Professional Portfolio
 
-This guide describes how to run the portfolio application, which consists of a Flask backend and a React frontend.
+[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
+[![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+[![Python](https://img.shields.io/badge/Python-14354C?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
 
-## Prerequisites
+## 🌟 Introduction
 
-- **Python** (3.8 or higher)
-- **Node.js** (16 or higher) and **npm**
-- **MongoDB Atlas** connection string
+Welcome to my professional portfolio repository. This project is a modern, interactive web application designed to showcase my skills, projects, and professional journey as a **Full Stack Enthusiast** and **Computer Science Student**.
 
-## 1. Backend Setup
+Built with a robust **Flask** backend and a dynamic **React** frontend, this portfolio features advanced animations, a custom chatbot, and global connectivity visualizations.
 
-The backend handles authentication, chatbot, and portfolio data.
+---
 
-1. **Navigate to the project root directory.**
+## 📸 Visuals & Previews
 
-2. **Create a `.env` file** in the root directory (same level as this README). Add the following variables:
+Here is a glimpse into the visual identity of the portfolio:
 
-   ```env
-   # Database Configuration
-   MONGODB_CONNECTION_STRING=your_mongodb_connection_string_here
+|                                    Profile Preview                                     |
+| :------------------------------------------------------------------------------------: |
+| <img src="frontend/public/images/profile/photo1.jpg" alt="Profile Photo" width="300"/> |
 
-   # Security (Optional - Defaults available for dev)
-   JWT_SECRET=your_super_secret_key
-   ADMIN_USERNAME=admin
-   ADMIN_PASSWORD=admin123
-   ```
+_(More visual assets available in `frontend/public/images/`)_
 
-3. **Set up a Virtual Environment:**
+---
 
-   ```bash
-   # Windows
-   python -m venv venv
-   .\venv\Scripts\activate
+## 🛠️ Project Structure
 
-   # Mac/Linux
-   python3 -m venv venv
-   source venv/bin/activate
-   ```
+A high-level overview of the repository structure to help you navigate:
 
-4. **Install Dependencies:**
+```bash
+📂 -nkit_portfolio26/
+├── 📂 backend_auth/           # 🤖 Backend logic, Authentication & Chatbot services
+│   └── chatbot.py
+├── 📂 database_architecture/  # 🗄️ Database connections and schema models
+│   └── connection.py
+├── 📂 frontend/               # ⚛️ React Frontend Application
+│   ├── 📂 public/             #    Static assets (Images, Icons)
+│   └── 📂 src/                #    Source code
+│       ├── 📂 components/     #    Reusable UI components (ModernHero, Contact, etc.)
+│       ├── 📂 data/           #    Static data files (globe.json)
+│       └── 📜 App.js
+├── 📂 docs/                   # 📄 Project documentation
+├── 📜 .env                    # 🔐 Environment variables (GitIgnored)
+└── 📜 requirements.txt        # 🐍 Python dependencies
+```
 
-   ```bash
-   pip install -r requirements.txt
-   ```
+---
 
-5. **Run the Backend Server:**
-   ```bash
-   python backend_auth/chatbot.py
-   ```
-   The backend will start at `http://localhost:5000`.
+## 🚀 Key Features
 
-## 2. Frontend Setup
+- **Interactive UI/UX**: Powered by **Framer Motion** for smooth transitions and **Three.js** (via Globe) for 3D visualizations.
+- **AI Chatbot**: Integrated conversational agent located in `backend_auth`.
+- **Secure Contact Form**: Protected by **Cloudflare Turnstile** and integrated with backend email services.
+- **Visitor Tracking**: Analytics implementation for monitoring traffic.
+- **Responsive Design**: Fully optimized for mobile, tablet, and desktop viewing.
 
-The frontend is a React application located in the `frontend` folder.
+---
 
-1. **Open a new terminal** and navigate to the frontend directory:
+## ⚡ Getting Started
 
-   ```bash
-   cd frontend
-   ```
+Follow these steps to set up the project locally.
 
-2. **Install Dependencies:**
+### Prerequisites
 
-   ```bash
-   npm install
-   ```
+- **Python** (3.8+)
+- **Node.js** (16+) & **npm**
+- **MongoDB Atlas** URI
 
-   _Note: If you encounter legacy dependency issues, try `npm install --legacy-peer-deps`._
+### 1. Backend Setup
 
-3. **Start the Development Server:**
-   ```bash
-   npm start
-   ```
-   The application will open in your browser at `http://localhost:3000`.
+1.  Navigate to the root directory.
+2.  Create a `.env` file with the following:
+    ```env
+    MONGODB_CONNECTION_STRING=your_mongodb_string
+    JWT_SECRET=your_jwt_secret
+    ADMIN_USERNAME=admin
+    ADMIN_PASSWORD=password
+    ```
+3.  Install dependencies and run:
 
-## Troubleshooting
+    ```bash
+    python -m venv venv
+    # Windows:
+    .\venv\Scripts\activate
+    # Mac/Linux:
+    source venv/bin/activate
 
-- **MongoDB Error**: If the backend fails to connect, ensure your network IP is whitelisted in MongoDB Atlas and the `MONGODB_CONNECTION_STRING` in `.env` is correct.
-- **CORS Issues**: The backend is configured to accept requests from `http://localhost:3000`. Ensure the frontend is running on that port.
+    pip install -r requirements.txt
+    python backend_auth/chatbot.py
+    ```
+
+    _Server runs on `http://localhost:5000`_
+
+### 2. Frontend Setup
+
+1.  Open a new terminal and navigate to `frontend/`:
+    ```bash
+    cd frontend
+    npm install
+    npm start
+    ```
+    _Client runs on `http://localhost:3000`_
+
+---
+
+## 🌐 Connect with Me
+
+I am always open to discussing new projects, creative ideas, or opportunities to be part of your visions.
+
+| Platform        | Link                                                                                                                                        |
+| :-------------- | :------------------------------------------------------------------------------------------------------------------------------------------ |
+| **LinkedIn**    | [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=flat&logo=linkedin&logoColor=white)](https://linkedin.com/in/ankit-sahoo94) |
+| **Twitter / X** | [![Twitter](https://img.shields.io/badge/Twitter-1DA1F2?style=flat&logo=twitter&logoColor=white)](https://x.com/@AnkitSahoo94)              |
+| **Instagram**   | [![Instagram](https://img.shields.io/badge/Instagram-E4405F?style=flat&logo=instagram&logoColor=white)](https://instagram.com/ankitsahoo94) |
+| **GitHub**      | [![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white)](https://github.com/)                         |
+
+---
+
+_Made with ❤️ by Ankit Sahoo_

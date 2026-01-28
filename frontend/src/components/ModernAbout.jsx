@@ -70,7 +70,7 @@ const ModernAbout = () => {
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.5 }}
               >
-                <div className="stat-label-small mb-2" style={{ color: 'var(--primary-color)' }}>
+                <div className="stat-label-small" style={{ color: 'var(--primary-color)', marginBottom: '0.5rem' }}>
                   {aboutData[activeIndex].label}
                 </div>
                 

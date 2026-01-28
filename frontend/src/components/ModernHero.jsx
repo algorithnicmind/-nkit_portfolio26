@@ -116,6 +116,7 @@ const ModernHero = () => {
 
   return (
     <motion.section
+      id="hero"
       className="modern-hero-section"
       initial="hidden"
       animate={isLoaded ? "visible" : "hidden"}
