@@ -4,6 +4,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 const ModernAbout = () => {
   const [activeIndex, setActiveIndex] = useState(0);
 
+  const handleNextPersona = () => {
+    setActiveIndex((prev) => (prev + 1) % aboutData.length);
+  };
+
   // Data for the About section - organized by "Personas" / Topics
   const aboutData = [
     {
@@ -65,10 +69,10 @@ const ModernAbout = () => {
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeIndex}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.5 }}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                transition={{ duration: 0.4 }}
               >
                 <div className="stat-label-small" style={{ color: 'var(--primary-color)', marginBottom: '0.5rem' }}>
                   {aboutData[activeIndex].label}
@@ -94,24 +98,37 @@ const ModernAbout = () => {
             </AnimatePresence>
           </div>
 
-          {/* RIGHT: Vertical Circular Navigation */}
-          <div className="about-nav-container">
-            {aboutData.map((item, index) => (
-              <div 
-                key={item.id}
-                className={`nav-circle-wrapper ${index === activeIndex ? 'active' : ''}`}
-                onClick={() => setActiveIndex(index)}
-              >
-                <div className="nav-label">{item.label}</div>
-                  <div className="nav-circle">
-                    <img 
-                      src={item.image} 
-                      alt={item.label}
-                      onError={(e) => { e.target.src = `https://ui-avatars.com/api/?name=${item.label}&background=random` }} 
-                    />
-                </div>
-              </div>
-            ))}
+          {/* RIGHT: Stacked Image Interaction */}
+          <div className="about-stack-container" onClick={handleNextPersona}>
+            {aboutData.map((item, index) => {
+              // Calculate relative index for stacking order
+              const relativeIndex = (index - activeIndex + aboutData.length) % aboutData.length;
+              
+              return (
+                <motion.div 
+                  key={item.id}
+                  className="about-stack-card"
+                  initial={false}
+                  animate={{
+                    top: relativeIndex * 15,
+                    left: relativeIndex * 15,
+                    scale: 1 - relativeIndex * 0.05,
+                    zIndex: aboutData.length - relativeIndex,
+                    opacity: 1 - relativeIndex * 0.2
+                  }}
+                  transition={{ type: "spring", stiffness: 200, damping: 20 }}
+                >
+                  <img 
+                    src={item.image} 
+                    alt={item.label}
+                    onError={(e) => { e.target.src = `https://ui-avatars.com/api/?name=${item.label}&background=random` }} 
+                  />
+                  <div className="stack-card-overlay">
+                    <span>{item.label}</span>
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
 
         </div>

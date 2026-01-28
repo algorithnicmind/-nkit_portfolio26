@@ -410,147 +410,64 @@ section {
   letter-spacing: 1px;
 }
 
-/* Right Navigation - Vertical Circles */
-.about-nav-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
+/* Right - Stacked Cards Interaction */
+.about-stack-container {
   position: relative;
-}
-
-/* Connecting line for circles */
-.about-nav-container::before {
-  content: "";
-  position: absolute;
-  top: 20px;
-  bottom: 20px;
-  left: 50%;
-  width: 2px;
-  background: linear-gradient(
-    to bottom,
-    transparent,
-    rgba(99, 102, 241, 0.3),
-    transparent
-  );
-  transform: translateX(-50%);
-  z-index: 0;
-}
-
-.nav-circle-wrapper {
-  position: relative;
-  z-index: 2;
+  width: 320px;
+  height: 420px;
+  margin: 0 auto;
   cursor: pointer;
-  transition: all 0.4s ease;
+  perspective: 1000px;
 }
 
-.nav-circle {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
+.about-stack-card {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 24px;
   overflow: hidden;
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
+  border: 4px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  background: var(--dark-bg);
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
 }
 
-.nav-circle img {
+.about-stack-card img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.6;
-  transition: all 0.4s ease;
-  filter: grayscale(100%);
-}
-
-.nav-circle-wrapper:hover .nav-circle {
-  transform: scale(1.1);
-  border-color: var(--primary-color);
-  box-shadow: 0 0 30px rgba(99, 102, 241, 0.4);
-}
-
-.nav-circle-wrapper:hover .nav-circle img {
-  opacity: 1;
-  filter: grayscale(0%);
-}
-
-.nav-circle-wrapper.active .nav-circle {
-  width: 100px; /* Active is larger */
-  height: 100px;
-  border-color: var(--primary-color);
-  box-shadow: 0 0 40px rgba(99, 102, 241, 0.6);
-}
-
-.nav-circle-wrapper.active .nav-circle img {
-  opacity: 1;
-  filter: grayscale(0%);
-}
-
-.nav-label {
-  position: absolute;
-  right: 120%; /* Position text to the left of circle */
-  top: 50%;
-  transform: translateY(-50%);
-  color: white;
-  font-size: 0.9rem;
-  font-weight: 500;
-  white-space: nowrap;
-  opacity: 0;
-  transition: all 0.3s ease;
   pointer-events: none;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-.nav-circle-wrapper:hover .nav-label,
-.nav-circle-wrapper.active .nav-label {
-  opacity: 1;
-  right: 130%; /* Move slightly for animation */
+.stack-card-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 2rem 1.5rem 1rem;
+  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+  color: white;
+  font-weight: 600;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+}
+
+.about-stack-card:hover .stack-card-overlay {
+  transform: translateY(0);
 }
 
 /* Mobile Responsive */
 @media screen and (max-width: 968px) {
   .about-interactive-container {
     grid-template-columns: 1fr;
-    gap: 3rem;
+    gap: 4rem;
   }
 
-  .about-nav-container {
-    flex-direction: row; /* Horizontal on mobile */
-    justify-content: center;
-    order: -1; /* Nav moves to top */
-    overflow-x: auto;
-    padding-bottom: 2rem;
-  }
-
-  .about-nav-container::before {
-    top: 50%;
-    left: 20px;
-    right: 20px;
-    bottom: auto;
-    width: auto;
-    height: 2px;
-    background: linear-gradient(
-      to right,
-      transparent,
-      rgba(99, 102, 241, 0.3),
-      transparent
-    );
-    transform: translateY(-50%);
-  }
-
-  .nav-label {
-    right: auto;
-    left: 50%;
-    top: 110%;
-    transform: translateX(-50%);
-    bottom: auto;
-  }
-
-  .nav-circle-wrapper:hover .nav-label,
-  .nav-circle-wrapper.active .nav-label {
-    right: auto;
-    top: 120%;
+  .about-stack-container {
+    width: 280px;
+    height: 380px;
+    order: -1; /* Stack on top on mobile */
   }
 }
 
@@ -1839,6 +1756,7 @@ section {
   color: white;
   font-size: 1.2rem;
   cursor: pointer;
+  z-index: 10;
   display: flex;
   align-items: center;
   justify-content: center;
