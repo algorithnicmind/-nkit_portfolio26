@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faCloudUploadAlt, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
-import './CreatePostModal.css';
+
 
 const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
     const [category, setCategory] = useState('Motivation');
