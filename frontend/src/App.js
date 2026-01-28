@@ -11,7 +11,7 @@ import ModernHero from './components/ModernHero';
 import ModernAbout from './components/ModernAbout';
 import Experience from './components/Experience';
 import Educations from './components/Educations';
-import ModernSkills from './components/ModernSkills';
+import SolarSystemSkills from './components/SolarSystemSkills';
 import ModernProjects from './components/ModernProjects';
 import Footer from './components/Footer';
 import Softs from './components/Softs';
@@ -125,7 +125,7 @@ function App() {
               <ModernAbout />
               <Experience />
               <Educations />
-              <ModernSkills />
+              <SolarSystemSkills />
               <ModernProjects />
               <ModernContact />
             </>

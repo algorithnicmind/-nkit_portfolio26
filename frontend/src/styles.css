@@ -3621,3 +3621,75 @@ section {
   background: rgba(255,255,255,0.1);
   border-radius: 3px;
 }
+
+/* ==========================================
+   Mobile Floating Dock
+   ========================================== */
+.floating-dock-mobile {
+  position: fixed;
+  bottom: 2rem;
+  right: 1.5rem;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column-reverse; /* Menu opens upwards */
+  align-items: flex-end;
+  gap: 1rem;
+}
+
+.mobile-dock-toggle {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: white;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.mobile-dock-toggle:active {
+  transform: scale(0.9);
+}
+
+.mobile-dock-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.mobile-dock-item {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(23, 23, 23, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.mobile-dock-item:hover, .mobile-dock-item:active {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+  transform: translateX(-5px);
+}
+
+@media (min-width: 768px) {
+  .floating-dock-mobile {
+    display: none;
+  }
+}

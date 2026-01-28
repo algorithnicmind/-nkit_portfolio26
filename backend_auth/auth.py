@@ -14,7 +14,9 @@ from functools import wraps
 from flask import request, jsonify
 
 # JWT Configuration
-JWT_SECRET = os.getenv('JWT_SECRET', 'your-super-secret-key-change-in-production')
+JWT_SECRET = os.getenv('JWT_SECRET')
+if not JWT_SECRET:
+    print("Warning: JWT_SECRET not set in environment variables.")
 JWT_ALGORITHM = 'HS256'
 TOKEN_EXPIRY_HOURS = 1
 
@@ -120,8 +122,15 @@ def register_auth_routes(app, db):
             # FALLBACK: If DB is down or user not found, check hardcoded default admin
             # This ensures login works even if MongoDB connection fails (SSL handshake errors)
             if not user:
-                admin_username = os.getenv('ADMIN_USERNAME', 'admin')
-                admin_password = os.getenv('ADMIN_PASSWORD', 'admin123')
+                # Get admin credentials from environment (No hardcoded defaults)
+                admin_username = os.getenv('ADMIN_USERNAME')
+                admin_password = os.getenv('ADMIN_PASSWORD')
+                
+                if not admin_username or not admin_password:
+                     return jsonify({
+                        'success': False,
+                        'error': 'Server misconfiguration: Admin credentials not set'
+                    }), 500
 
                 if username == admin_username and password == admin_password:
                     # Create a mock user object for the token

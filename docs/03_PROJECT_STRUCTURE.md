@@ -1,11 +1,11 @@
-# Project Structure & File Guide
+# 📂 Project Structure & File Guide
 
 This document provides a comprehensive, file-by-file breakdown of the entire project.
 
 ## 📂 Root Directory
 
 | File / Folder            | Description                                                                         |
-| ------------------------ | ----------------------------------------------------------------------------------- |
+| :----------------------- | :---------------------------------------------------------------------------------- |
 | `.env`                   | **CRITICAL**. Environment variables for Database URL, JWT Secrets, and Admin creds. |
 | `requirements.txt`       | Python dependencies for the backend (Flask, PyMongo, etc.).                         |
 | `TODO.md`                | Task tracking and roadmap for the project.                                          |
@@ -21,7 +21,7 @@ This document provides a comprehensive, file-by-file breakdown of the entire pro
 Core Server Logic.
 
 | File                      | Description                                                                               |
-| ------------------------- | ----------------------------------------------------------------------------------------- |
+| :------------------------ | :---------------------------------------------------------------------------------------- |
 | `analytics.py`            | Tracks visitor data (IP, Location, Device) and provides stats for the dashboard.          |
 | `auth.py`                 | Handles Admin Authentication, JWT Token generation, and Rate Limiting.                    |
 | `chatbot.py`              | **MAIN SERVER ENTRY POINT**. Initializes Flask, connects routes, and handles Chatbot API. |
@@ -38,7 +38,7 @@ Core Server Logic.
 Data Persistence & Business Logic.
 
 | File                   | Description                                                              |
-| ---------------------- | ------------------------------------------------------------------------ |
+| :--------------------- | :----------------------------------------------------------------------- |
 | `__init__.py`          | Marks directory as a Python package.                                     |
 | `admin_utils.py`       | Helper functions for administrative tasks.                               |
 | `check_database.py`    | Diagnostic script to verify database integrity.                          |
@@ -51,12 +51,15 @@ Data Persistence & Business Logic.
 
 ## 📂 Documentation: `docs/`
 
-| File                     | Description                                                       |
-| ------------------------ | ----------------------------------------------------------------- |
-| `01_project_overview.md` | General introduction to the portfolio's goals and features.       |
-| `02_tech_stack.md`       | Detailed list of technologies used (React, Flask, MongoDB, etc.). |
-| `PROJECT_STRUCTURE.md`   | **(This File)** Complete file inventory.                          |
-| `RUNNING.md`             | Instructions on how to set up and run the project locally.        |
+| File                      | Description                                                 |
+| :------------------------ | :---------------------------------------------------------- |
+| `01_INTRODUCTION.md`      | General introduction to the portfolio's goals and features. |
+| `02_GETTING_STARTED.md`   | Detailed list of technologies used and installation guide.  |
+| `03_PROJECT_STRUCTURE.md` | **(This File)** Complete file inventory.                    |
+| `04_FRONTEND_GUIDE.md`    | Guide to React components and styling.                      |
+| `05_BACKEND_GUIDE.md`     | Guide to Flask API and database.                            |
+| `06_FEATURES_MANUAL.md`   | User manual for features.                                   |
+| `07_TROUBLESHOOTING.md`   | Common issues and fixes.                                    |
 
 ---
 
@@ -67,7 +70,7 @@ React Application.
 ### Root Files
 
 | File           | Description                                           |
-| -------------- | ----------------------------------------------------- |
+| :------------- | :---------------------------------------------------- |
 | `package.json` | Node.js dependencies configuration and build scripts. |
 | `public/`      | Static assets directory (images, icons, etc.).        |
 | `src/`         | Source code directory.                                |
@@ -75,7 +78,7 @@ React Application.
 ### `frontend/public/`
 
 | File                      | Description                                                     |
-| ------------------------- | --------------------------------------------------------------- |
+| :------------------------ | :-------------------------------------------------------------- |
 | `Ankit_Resume (1).pdf`    | Resume file available for download.                             |
 | `favicon.ico`             | Browser tab icon.                                               |
 | `index.html`              | **HTML ENTRY POINT**. The main HTML file loaded by the browser. |
@@ -89,7 +92,7 @@ React Application.
 ### `frontend/src/`
 
 | File           | Description                                                                |
-| -------------- | -------------------------------------------------------------------------- |
+| :------------- | :------------------------------------------------------------------------- |
 | `App.js`       | **MAIN REACT COMPONENT**. Sets up the page layout and combines components. |
 | `index.js`     | Web entry point; mounts React to the DOM.                                  |
 | `styles.css`   | Global CSS styles (Tailwind or custom CSS).                                |
@@ -99,34 +102,35 @@ React Application.
 
 Reusable UI Elements.
 
-| File                         | Description                                        |
-| ---------------------------- | -------------------------------------------------- |
-| `AnalyticsDashboard.jsx`     | Admin panel view showing visitor stats and graphs. |
-| `Chatbot.jsx`                | Floating AI Assistant widget.                      |
-| `CreatePostModal.jsx`        | Admin modal for creating new content.              |
-| `Educations.jsx`             | Section displaying academic background.            |
-| `Experience.jsx`             | Section displaying work history.                   |
-| `FallingStars.jsx`           | Animation background effect.                       |
-| `FloatingDock.jsx`           | Navigation menu component.                         |
-| `Footer.jsx`                 | Site footer.                                       |
-| `GravityStarsBackground.jsx` | Complex background animation.                      |
-| `LoginModal.jsx`             | Admin login form popup.                            |
-| `ModernAbout.jsx`            | "About Me" section.                                |
-| `ModernContact.jsx`          | Contact form with validation and Turnstile.        |
-| `ModernHero.jsx`             | Top "Hero" section with typing effect.             |
-| `ModernProjects.jsx`         | Grid display of portfolio projects.                |
-| `ModernSkills.jsx`           | Skills visualization section.                      |
-| `SimpleNavbar.jsx`           | Basic top navigation bar.                          |
-| `Softs.jsx`                  | "Soft Skills" or "Updates" section.                |
-| `Timeline.jsx`               | Vertical timeline component.                       |
-| `VisitorTracker.jsx`         | Invisible component that tracks user visits.       |
+| File                         | Description                                            |
+| :--------------------------- | :----------------------------------------------------- |
+| `AnalyticsPage.jsx`          | Admin panel view showing visitor stats and graphs.     |
+| `Chatbot.jsx`                | Floating AI Assistant widget.                          |
+| `CreatePostModal.jsx`        | Admin modal for creating new content.                  |
+| `Educations.jsx`             | Section displaying academic background.                |
+| `Experience.jsx`             | Section displaying work history.                       |
+| `FallingStars.jsx`           | Animation background effect.                           |
+| `FloatingDock.jsx`           | Navigation menu component (Desktop Dock + Mobile Dot). |
+| `Footer.jsx`                 | Site footer.                                           |
+| `GravityStarsBackground.jsx` | Complex background animation.                          |
+| `LoginModal.jsx`             | Admin login form popup.                                |
+| `ModernAbout.jsx`            | "About Me" section.                                    |
+| `ModernContact.jsx`          | Contact form with validation and Turnstile.            |
+| `ModernHero.jsx`             | Top "Hero" section with typing effect.                 |
+| `ModernProjects.jsx`         | Grid display of portfolio projects.                    |
+| `ModernSkills.jsx`           | Skills visualization section.                          |
+| `SimpleNavbar.jsx`           | Basic top navigation bar.                              |
+| `Softs.jsx`                  | "Soft Skills" or "Updates" section.                    |
+| `Timeline.jsx`               | Vertical timeline component.                           |
+| `VisitorTracker.jsx`         | Invisible component that tracks user visits.           |
 
 ### `frontend/src/components/ui/`
 
 Specialized UI Library Components.
 
 | File                     | Description                          |
-| ------------------------ | ------------------------------------ |
+| :----------------------- | :----------------------------------- |
 | `BackgroundGradient.jsx` | Fancy gradient background container. |
 | `beams-background.tsx`   | Rays/Beams light effect background.  |
 | `CardStack.jsx`          | Stacked card animation component.    |
+| `Globe.jsx`              | 3D Interactive World Globe.          |

@@ -5,10 +5,21 @@
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
+    
+    <!-- Security: Block bad plugins and base-hijacking -->
+    <meta http-equiv="Content-Security-Policy" content="object-src 'none'; base-uri 'self';" />
+    
+    <!-- Smooth: iOS/Android Web App Capability -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="format-detection" content="telephone=no" />
     <meta
       name="description"
       content="Portfolio of Ankit Sahoo – student, tech developer, and problem solver. Projects, skills, and contact information."
     />
+    <meta name="keywords" content="Ankit Sahoo, Portfolio, Full Stack Developer, React, Python, AI, Web Development, Software Engineer" />
+    <meta name="robots" content="index, follow" />
+    <meta name="application-name" content="Ankit Portfolio" />
     <meta name="author" content="Ankit Sahoo" />
     <meta property="og:title" content="Ankit Sahoo | Portfolio" />
     <meta property="og:description" content="Student and tech developer. Explore projects, skills, and get in touch." />
@@ -20,6 +31,9 @@
     <meta name="twitter:description" content="Student and tech developer. Explore projects, skills, and get in touch." />
     <meta name="twitter:image" content="%PUBLIC_URL%/logo512.png" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    
+    <!-- Security: Controls how much referrer info is sent to other sites -->
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
@@ -27,7 +41,10 @@
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <!-- Performance: Preconnect to font origins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://challenges.cloudflare.com">
+    <link rel="dns-prefetch" href="https://images.unsplash.com">
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.

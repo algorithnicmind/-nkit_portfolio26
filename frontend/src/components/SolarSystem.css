@@ -1,0 +1,119 @@
+.solar-system-container {
+    position: relative;
+    width: 100%;
+    height: 800px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    cursor: grab;
+}
+
+.solar-system-container:active {
+    cursor: grabbing;
+}
+
+.sun {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    background: radial-gradient(circle, #ffd700, #ff8c00);
+    border-radius: 50%;
+    box-shadow: 0 0 50px #ff8c00;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    animation: sunPulse 3s infinite alternate;
+}
+
+@keyframes sunPulse {
+    from { transform: scale(1); box-shadow: 0 0 50px #ff8c00; }
+    to { transform: scale(1.1); box-shadow: 0 0 80px #ff8c00; }
+}
+
+.orbit {
+    position: absolute;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    transform-style: preserve-3d;
+    animation: rotateOrbit linear infinite;
+    pointer-events: none; /* Allow clicks to pass through orbit rings */
+}
+
+.orbit:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+    animation-play-state: paused;
+}
+
+.planet {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 60px; /* Slightly larger */
+    height: 60px;
+    margin-top: -30px;
+    margin-left: -30px;
+    border-radius: 50%;
+    background: #1e293b;
+    border: 1px solid rgba(255,255,255,0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.8rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    z-index: 5;
+    pointer-events: auto; /* Re-enable clicks on planets */
+}
+
+.planet:hover {
+    transform: scale(1.3);
+    box-shadow: 0 0 25px rgba(255,255,255,0.5);
+    z-index: 20;
+    background: #334155;
+    border-color: #fff;
+}
+
+.planet-tooltip {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.8);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+
+.planet:hover .planet-tooltip {
+    opacity: 1;
+}
+
+@keyframes rotateOrbit {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Counter-rotate planets so icons stay upright */
+.planet-icon-wrapper {
+    animation: counterRotate linear infinite;
+}
+
+/* Modal Stying adjustments for clearer categories */
+.skill-category-badge {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+    display: inline-block;
+    border: 1px solid rgba(255,255,255,0.2);
+}

@@ -3,6 +3,7 @@ import { motion, useInView } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { faLinkedin as faLinkedinBrand, faGithub as faGithubBrand, faTwitter as faTwitterBrand } from '@fortawesome/free-brands-svg-icons';
+
 import { Turnstile } from '@marsidev/react-turnstile';
 import { World } from './ui/Globe';
 
@@ -13,6 +14,7 @@ const ModernContact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState({ show: false, success: false, message: '' });
   const [turnstileToken, setTurnstileToken] = useState('');
+
 
   const socialLinks = [
     { icon: faLinkedinBrand, label: 'LinkedIn', link: 'https://linkedin.com/in/ankit-sahoo94' },
@@ -83,6 +85,9 @@ const ModernContact = () => {
     setIsSubmitting(true);
     setSubmitStatus({ show: false, success: false, message: '' });
 
+
+
+    // Validate Turnstile
     if (!turnstileToken) {
       setSubmitStatus({ show: true, success: false, message: 'Please complete the security check.' });
       setIsSubmitting(false);
@@ -102,6 +107,7 @@ const ModernContact = () => {
         setSubmitStatus({ show: true, success: true, message: 'Message sent successfully!' });
         setFormData({ name: '', email: '', subject: '', message: '' });
         setTurnstileToken('');
+
       } else {
         setSubmitStatus({ show: true, success: false, message: data.error || 'Failed to send message.' });
       }
@@ -207,10 +213,13 @@ const ModernContact = () => {
                   rows={4}
                 />
 
+
+
                 <div className="turnstile-wrapper">
                   <Turnstile
-                    siteKey={process.env.REACT_APP_TURNSTILE_SITE_KEY || "0x4AAAAAACMptg7r5fLAH-Dn"}
+                    siteKey={process.env.REACT_APP_TURNSTILE_SITE_KEY}
                     onSuccess={(token) => setTurnstileToken(token)}
+                    onError={() => setSubmitStatus({ show: true, success: false, message: 'Security check failed to load.' })}
                   />
                 </div>
 

@@ -45,7 +45,8 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
                 const formData = new FormData();
                 formData.append('file', file);
 
-                const uploadRes = await fetch('http://localhost:5000/api/upload', {
+                const API_URL = process.env.REACT_APP_API_URL;
+                const uploadRes = await fetch(`${API_URL}/api/upload`, {
                     method: 'POST',
                     body: formData,
                 });
@@ -58,7 +59,8 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
             }
 
             // 2. Create Post
-            const postRes = await fetch('http://localhost:5000/api/soft-posts', {
+            const API_URL = process.env.REACT_APP_API_URL;
+            const postRes = await fetch(`${API_URL}/api/soft-posts`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
