@@ -1,14 +1,19 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import ReactDOM from 'react-dom'; // Import for Portal
+import { Canvas, useFrame } from '@react-three/fiber';
+import { OrbitControls, Html } from '@react-three/drei';
+import * as THREE from 'three';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes, faSearchPlus, faSearchMinus } from '@fortawesome/free-solid-svg-icons';
+import { faTimes, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
+import { useInView } from 'react-intersection-observer';
 import './SolarSystem.css';
 
 // --- DATA: Correctly Categorized Skills ---
 const skillOrbits = [
     {
         name: "Languages (Core)",
-        radius: 130,
+        radius: 10,
         speed: 25,
         skills: [
             { name: 'Python', icon: '🐍', color: '#3776ab', category: 'Programming Language', desc: 'A high-level, interpreted programming language famous for AI and Data Science.' },
@@ -20,7 +25,7 @@ const skillOrbits = [
     },
     {
         name: "Frameworks & DBs",
-        radius: 230,
+        radius: 16,
         speed: 40,
         direction: 'reverse',
         skills: [
@@ -33,7 +38,7 @@ const skillOrbits = [
     },
     {
         name: "Tools & AI",
-        radius: 330,
+        radius: 22,
         speed: 60,
         skills: [
             { name: 'Git', icon: '📂', color: '#f05033', category: 'Version Control', desc: 'A distributed version control system to track data changes.' },
@@ -45,17 +50,135 @@ const skillOrbits = [
     }
 ];
 
+// --- 3D Components ---
+
+const Sun = () => {
+    return (
+        <mesh>
+            <sphereGeometry args={[4, 32, 32]} />
+            <meshStandardMaterial 
+                emissive="#ff8c00" 
+                emissiveIntensity={2} 
+                color="#ffd700" 
+                roughness={0.2}
+            />
+            <pointLight distance={100} intensity={3} color="#ffd700" />
+            <Html center>
+                <div style={{ fontSize: '3rem', pointerEvents: 'none', userSelect: 'none' }}>👨‍💻</div>
+            </Html>
+        </mesh>
+    );
+};
+
+const OrbitRing = ({ radius }) => {
+    return (
+        <mesh rotation={[Math.PI / 2, 0, 0]}>
+            <torusGeometry args={[radius, 0.05, 32, 100]} />
+            <meshBasicMaterial color="#ffffff" opacity={0.05} transparent side={THREE.DoubleSide} />
+        </mesh>
+    );
+};
+
+const Planet = ({ skill, distance, speed, initialAngle, direction, onSelect }) => {
+    const meshRef = useRef();
+    const [hovered, setHovered] = useState(false);
+    
+    // Store initial angle ref
+    const angleRef = useRef(initialAngle);
+
+    useFrame((state, delta) => {
+        if (!meshRef.current) return;
+
+        // Calculate Rotation
+        const rotationSpeed = (0.08 / speed); 
+        const dirMultiplier = direction === 'reverse' ? -1 : 1;
+
+        angleRef.current += rotationSpeed * dirMultiplier;
+
+        const x = distance * Math.cos(angleRef.current);
+        const z = distance * Math.sin(angleRef.current);
+
+        meshRef.current.position.set(x, 0, z);
+    });
+
+    return (
+        <group ref={meshRef}>
+            {/* Invisible Hit Sphere for Click interaction */}
+            <mesh 
+                onClick={(e) => { e.stopPropagation(); onSelect(skill); }}
+                onPointerOver={() => { document.body.style.cursor = 'pointer'; setHovered(true); }}
+                onPointerOut={() => { document.body.style.cursor = 'auto'; setHovered(false); }}
+            >
+                <sphereGeometry args={[5, 32, 32]} /> 
+                <meshBasicMaterial transparent opacity={0.0} color="black" />
+            </mesh>
+            
+            <Html center zIndexRange={[100, 0]} distanceFactor={15} style={{ pointerEvents: 'none' }}>
+                <div style={{ 
+                    transform: hovered ? 'scale(1.2)' : 'scale(1)',
+                    transition: 'transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+                    textAlign: 'center', 
+                    display: 'flex', 
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                }}>
+                    <div style={{ 
+                        fontSize: '9rem', 
+                        filter: `drop-shadow(0 0 25px ${skill.color}) drop-shadow(0 0 10px rgba(0,0,0,0.8))`,
+                        lineHeight: 1
+                    }}>
+                        {skill.icon}
+                    </div>
+                </div>
+            </Html>
+            
+            {hovered && (
+                 <Html position={[0, 9, 0]} center zIndexRange={[100, 0]} distanceFactor={10}>
+                    <div style={{ 
+                        background: 'rgba(0,0,0,0.95)', 
+                        color: 'white', 
+                        padding: '12px 24px', 
+                        borderRadius: '12px',
+                        whiteSpace: 'nowrap',
+                        fontSize: '3.5rem', 
+                        fontWeight: '700',
+                        pointerEvents: 'none',
+                        border: `2px solid ${skill.color}`,
+                        boxShadow: `0 0 30px ${skill.color}`
+                    }}>
+                        {skill.name}
+                    </div>
+                 </Html>
+            )}
+        </group>
+    );
+};
+
 // --- Skill Detail Modal (Reused) ---
 const SolarSkillModal = ({ skill, onClose }) => {
+    useEffect(() => {
+        document.body.style.overflow = 'hidden';
+        if (window.lenis) window.lenis.stop();
+        return () => { 
+            document.body.style.overflow = 'unset'; 
+            if (window.lenis) window.lenis.start();
+        };
+    }, []);
+
     if (!skill) return null;
-    return (
+
+    const modalContent = (
         <motion.div
             className="skill-modal-overlay"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            style={{ zIndex: 1000 }} // Ensure it's above solar system
+            style={{ 
+                zIndex: 9999, 
+                position: 'fixed'
+            }} 
         >
             <motion.div
                 className="skill-modal"
@@ -90,137 +213,127 @@ const SolarSkillModal = ({ skill, onClose }) => {
                     {skill.desc}
                 </p>
 
-                {/* Proficiency Visual (Simulated) */}
                 <div style={{ background: '#3f3f46', height: '6px', borderRadius: '3px', overflow: 'hidden' }}>
                     <motion.div 
                         initial={{ width: 0 }}
-                        animate={{ width: '85%' }} // Default 85% for demo
+                        animate={{ width: '85%' }} 
                         style={{ height: '100%', background: skill.color }}
                     />
                 </div>
                 <div style={{ textAlign: 'right', fontSize: '0.8rem', marginTop: '5px', color: '#a1a1aa' }}>Proficiency</div>
-
             </motion.div>
         </motion.div>
     );
+
+    return ReactDOM.createPortal(modalContent, document.body);
 };
 
-// --- Main Component ---
-const SolarSystemSkills = () => {
-    const [selectedSkill, setSelectedSkill] = useState(null);
-    const [zoom, setZoom] = useState(1);
-    const containerRef = useRef(null);
+// --- Main 3D Composition with Controls ---
+const SolarSystemScene = ({ onPlanetSelect }) => {
+    const controlsRef = useRef();
 
-    const handleZoom = (delta) => {
-        setZoom(prev => Math.min(Math.max(prev + delta, 0.4), 2.0));
+    const handleZoomIn = () => {
+        if (controlsRef.current) {
+            controlsRef.current.dollyIn(1.2); 
+            controlsRef.current.update();
+        }
     };
 
-    // Responsive: Analyze screen size and set optimal zoom
-    React.useEffect(() => {
-        const handleResize = () => {
-             // System Width is approx 700px (Outer Radius 330 * 2 + Planet size). 
-             // We add buffer -> ~800px required.
-             const optimalZoom = Math.min(window.innerWidth / 800, 1);
-             // Ensure it's not too tiny
-             setZoom(Math.max(optimalZoom, 0.5));
-        };
-
-        handleResize(); // Set on mount
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
+    const handleZoomOut = () => {
+        if (controlsRef.current) {
+            controlsRef.current.dollyOut(1.2); 
+            controlsRef.current.update();
+        }
+    };
 
     return (
-        <section id="skills" style={{ position: 'relative', overflow: 'hidden', minHeight: '900px' }}>
-            {/* Header */}
-            <div className="container" style={{ position: 'relative', zIndex: 20, paddingTop: '3rem', textAlign: 'center' }}>
-                <h2 className="section-title">Skills & Technology</h2>
-                <p style={{ color: '#a1a1aa' }}>Interactive Solar System. Click any planet to explore details.</p>
+        <>
+             {/* Controls Overlay */}
+             <Html fullscreen style={{ pointerEvents: 'none' }}>
+                <div style={{ position: 'absolute', bottom: '30px', right: '30px', pointerEvents: 'auto', display: 'flex', gap: '10px' }}>
+                    <button onClick={handleZoomIn} className="solar-zoom-btn" title="Zoom In">
+                        <FontAwesomeIcon icon={faPlus} />
+                    </button>
+                    <button onClick={handleZoomOut} className="solar-zoom-btn" title="Zoom Out">
+                        <FontAwesomeIcon icon={faMinus} />
+                    </button>
+                </div>
+            </Html>
+
+            <ambientLight intensity={0.2} />
+            <pointLight position={[10, 10, 10]} intensity={1.5} />
+            
+            <group rotation={[0, 0, 0]}> 
+                <Sun />
+                
+                {skillOrbits.map((orbit, idx) => (
+                    <React.Fragment key={idx}>
+                        <OrbitRing radius={orbit.radius} />
+                        {orbit.skills.map((skill, sIdx) => {
+                            const angleStep = (2 * Math.PI) / orbit.skills.length;
+                            const initialAngle = sIdx * angleStep;
+                            return (
+                                <Planet 
+                                    key={skill.name} 
+                                    skill={skill}
+                                    distance={orbit.radius}
+                                    speed={orbit.speed}
+                                    direction={orbit.direction}
+                                    initialAngle={initialAngle}
+                                    onSelect={onPlanetSelect}
+                                />
+                            );
+                        })}
+                    </React.Fragment>
+                ))}
+            </group>
+
+            <OrbitControls 
+                ref={controlsRef}
+                enablePan={false}
+                enableZoom={false} // Manual buttons only
+                minDistance={15}
+                maxDistance={120}
+                maxPolarAngle={Math.PI / 1.8} 
+            />
+        </>
+    );
+};
+
+/* 
+   UPDATED LAYOUT: 
+   Using a Flex-column approach to strictly separate the Header from the 3D Canvas.
+   This prevents the "solar element" from overlapping or clipping the text.
+*/
+const SolarSystemSkills = () => {
+    const [selectedSkill, setSelectedSkill] = useState(null);
+    const { ref, inView } = useInView({
+        threshold: 0,
+        triggerOnce: false
+    });
+
+    return (
+        <section id="skills" style={{ position: 'relative', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            
+            {/* Header Block: Now part of the document flow, not absolute */}
+            <div className="container" style={{ paddingTop: '4rem', paddingBottom: '2rem', textAlign: 'center', zIndex: 10 }}>
+                <h2 className="section-title" style={{ textShadow: '0 2px 10px rgba(0,0,0,0.8)', fontSize: '3.5rem' }}>Skills & Technology</h2>
+                <p style={{ color: '#a1a1aa', textShadow: '0 1px 4px rgba(0,0,0,0.8)', fontSize: '1.2rem', marginTop: '1rem' }}>
+                    Interactive 3D Universe. Drag to rotate, Use buttons to zoom, Click a planet.
+                </p>
             </div>
 
-            {/* Controls */}
-            <div style={{ position: 'absolute', bottom: '20px', right: '20px', zIndex: 100, display: 'flex', gap: '10px' }}>
-                <button onClick={() => handleZoom(0.2)} style={{ padding: '10px', background: '#333', color: '#fff', border: 'none', borderRadius: '50%', cursor: 'pointer' }}>
-                    <FontAwesomeIcon icon={faSearchPlus} />
-                </button>
-                <button onClick={() => handleZoom(-0.2)} style={{ padding: '10px', background: '#333', color: '#fff', border: 'none', borderRadius: '50%', cursor: 'pointer' }}>
-                    <FontAwesomeIcon icon={faSearchMinus} />
-                </button>
-            </div>
-
-            {/* Solar System Container */}
-            <div 
-                className="solar-system-container" 
-                ref={containerRef}
-                style={{ height: '800px' }}
-            >
-                <motion.div 
-                    className="universe-wrapper"
-                    animate={{ scale: zoom }}
-                    transition={{ type: 'spring', damping: 20 }}
-                    style={{ position: 'relative', width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+            {/* 3D Canvas Block: Sits BELOW the header */}
+            <div ref={ref} style={{ width: '100%', height: '800px' }}>
+                <Canvas 
+                    frameloop={inView ? "always" : "never"}
+                    camera={{ position: [0, 45, 35], fov: 45 }} 
+                    dpr={[1, 2]} 
+                    gl={{ powerPreference: "high-performance" }}
                 >
-                    {/* Sun */}
-                    <div className="sun">
-                        <span>👨‍💻</span>
-                    </div>
-
-                    {/* Orbits */}
-                    {skillOrbits.map((orbit, orbitIndex) => (
-                        <div 
-                            key={orbitIndex} 
-                            className="orbit"
-                            style={{ 
-                                width: orbit.radius * 2, 
-                                height: orbit.radius * 2,
-                                animationDuration: `${orbit.speed}s`,
-                                animationDirection: orbit.direction === 'reverse' ? 'reverse' : 'normal'
-                            }}
-                        >
-                            {/* Planets on Orbit */}
-                            {orbit.skills.map((skill, skillIndex) => {
-                                const angle = (360 / orbit.skills.length) * skillIndex;
-                                // We position planets using rotation transforms from the center of the orbit
-                                return (
-                                    <div 
-                                        key={skillIndex}
-                                        className="planet"
-                                        style={{
-                                            // Position: Absolute based on angle.
-                                            top: '50%',
-                                            left: '50%',
-                                            marginTop: -25,
-                                            marginLeft: -25,
-                                            // The orbit div rotates, so we just need static placement around circle
-                                            transform: `rotate(${angle}deg) translate(${orbit.radius}px) rotate(-${angle}deg)` 
-                                        }}
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            setSelectedSkill(skill);
-                                        }}
-                                    >
-                                        <div className="planet-icon-wrapper" style={{ 
-                                            animation: `counterRotate ${orbit.speed}s linear infinite`,
-                                            animationDirection: orbit.direction === 'reverse' ? 'normal' : 'reverse',
-                                            display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%'
-                                        }}>
-                                            <span style={{ color: skill.color }}>{skill.icon}</span>
-                                        </div>
-                                        <div className="planet-tooltip">{skill.name}</div>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    ))}
-                </motion.div>
+                    <SolarSystemScene onPlanetSelect={setSelectedSkill} />
+                </Canvas>
             </div>
-
-            <style>{`
-                @keyframes counterRotate {
-                    from { transform: rotate(0deg); }
-                    to { transform: rotate(-360deg); }
-                }
-            `}</style>
 
             {/* Modal */}
             <AnimatePresence>

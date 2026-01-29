@@ -12,7 +12,7 @@ const Softs = ({ adminUser }) => {
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState('All');
 
-  const categories = ['All', 'Motivation', 'Certificate', 'Hackathon', 'Seminar', 'Webinar', 'Research'];
+  const categories = ['All', 'Motivation', 'Certificate', 'Freelancing', 'Hackathon', 'Seminar', 'Webinar', 'Research'];
 
   const fetchPosts = async () => {
     try {

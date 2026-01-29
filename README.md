@@ -56,13 +56,15 @@ A high-level overview of the repository structure to help you navigate:
 
 ## 🚀 Key Features
 
-- **Interactive UI/UX**: Powered by **Framer Motion** for smooth transitions and **Three.js** (via Globe) for 3D visualizations.
+- **Interactive UI/UX**: Powered by **Framer Motion** for smooth transitions and **Three.js** (via Solar System) for 3D visualizations.
+- **Immersive Visuals**: Features a unique **Aurora Background** and optimized **Gravity Stars** physics engine.
+- **Smooth Experience**: Integrated **Lenis Smooth Scroll** with intelligent modal handling for lag-free interactions.
+- **Premium Project Grid**: A scalable, glassmorphic grid layout designed to showcase multiple projects with unique 3D tilt effects.
+- **Solar System Skills**: Interactive 3D skill visualization with orbiting technology icons.
 - **AI Chatbot**: Integrated conversational agent located in `backend_auth`.
 - **Secure Contact Form**: Protected by **Cloudflare Turnstile**, saves to MongoDB, and sends WhatsApp notifications.
-- **WhatsApp Notifications**: Get instant alerts on WhatsApp when someone submits the contact form.
 - **Visitor Tracking**: Analytics implementation for monitoring traffic.
 - **Responsive Design**: Fully optimized for mobile, tablet, and desktop viewing.
-- **Solar System Skills**: Interactive skill visualization with orbiting technology icons.
 
 ---
 

@@ -13,6 +13,21 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
     const [isUploading, setIsUploading] = useState(false);
     const [error, setError] = useState('');
 
+    // Lock body scroll (and Lenis) when modal is open
+    React.useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = 'hidden';
+            if (window.lenis) window.lenis.stop();
+        } else {
+            document.body.style.overflow = 'unset';
+            if (window.lenis) window.lenis.start();
+        }
+        return () => { 
+            document.body.style.overflow = 'unset'; 
+            if (window.lenis) window.lenis.start();
+        };
+    }, [isOpen]);
+
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
         if (selectedFile) {
@@ -126,6 +141,7 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
                             >
                                 <option value="Motivation">Motivation 💡</option>
                                 <option value="Certificate">Certificate 📜</option>
+                                <option value="Freelancing">Freelancing 💼</option>
                                 <option value="Hackathon">Hackathon 🚀</option>
                                 <option value="Seminar">Seminar 🎤</option>
                                 <option value="Webinar">Webinar 💻</option>

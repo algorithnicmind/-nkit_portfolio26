@@ -127,14 +127,14 @@ const GravityStarsBackground = ({
                 ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
                 ctx.fillStyle = p.color;
 
-                // Glow effect
-                if (glowIntensity > 0) {
-                    ctx.shadowBlur = glowIntensity;
-                    ctx.shadowColor = "white";
-                }
+                // Glow effect - Optimized: Removed expensive shadowBlur
+                // if (glowIntensity > 0) {
+                //    ctx.shadowBlur = glowIntensity;
+                //    ctx.shadowColor = "white";
+                // }
 
                 ctx.fill();
-                ctx.shadowBlur = 0; // Reset
+                // ctx.shadowBlur = 0; // Reset
             });
 
             animationFrameRef.current = requestAnimationFrame(animate);

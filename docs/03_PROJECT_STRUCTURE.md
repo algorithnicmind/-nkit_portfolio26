@@ -104,35 +104,37 @@ React Application.
 
 Reusable UI Elements.
 
-| File                         | Description                                            |
-| :--------------------------- | :----------------------------------------------------- |
-| `AnalyticsPage.jsx`          | Admin panel view showing visitor stats and graphs.     |
-| `Chatbot.jsx`                | Floating AI Assistant widget.                          |
-| `CreatePostModal.jsx`        | Admin modal for creating new content.                  |
-| `Educations.jsx`             | Section displaying academic background.                |
-| `Experience.jsx`             | Section displaying work history.                       |
-| `FallingStars.jsx`           | Animation background effect.                           |
-| `FloatingDock.jsx`           | Navigation menu component (Desktop Dock + Mobile Dot). |
-| `Footer.jsx`                 | Site footer.                                           |
-| `GravityStarsBackground.jsx` | Complex background animation.                          |
-| `LoginModal.jsx`             | Admin login form popup.                                |
-| `ModernAbout.jsx`            | "About Me" section.                                    |
-| `ModernContact.jsx`          | Contact form with validation and Turnstile.            |
-| `ModernHero.jsx`             | Top "Hero" section with typing effect.                 |
-| `ModernProjects.jsx`         | Grid display of portfolio projects.                    |
-| `ModernSkills.jsx`           | Skills visualization section.                          |
-| `SimpleNavbar.jsx`           | Basic top navigation bar.                              |
-| `Softs.jsx`                  | "Soft Skills" or "Updates" section.                    |
-| `Timeline.jsx`               | Vertical timeline component.                           |
-| `VisitorTracker.jsx`         | Invisible component that tracks user visits.           |
+| File                         | Description                                               |
+| :--------------------------- | :-------------------------------------------------------- |
+| `AnalyticsPage.jsx`          | Admin panel view showing visitor stats and graphs.        |
+| `Chatbot.jsx`                | Floating AI Assistant widget.                             |
+| `CreatePostModal.jsx`        | Admin modal for creating new content.                     |
+| `Educations.jsx`             | Section displaying academic background.                   |
+| `Experience.jsx`             | Section displaying work history.                          |
+| `FallingStars.jsx`           | Animation background effect.                              |
+| `FloatingDock.jsx`           | Navigation menu component (Desktop Dock + Mobile Dot).    |
+| `Footer.jsx`                 | Site footer.                                              |
+| `GravityStarsBackground.jsx` | Complex background animation (Replaced by Aurora).        |
+| `LoginModal.jsx`             | Admin login form popup.                                   |
+| `ModernAbout.jsx`            | "About Me" section.                                       |
+| `ModernContact.jsx`          | Contact form with validation and Turnstile.               |
+| `ModernHero.jsx`             | Top "Hero" section with typing effect.                    |
+| `ModernProjects.jsx`         | Grid display of portfolio projects.                       |
+| `SolarSystemSkills.jsx`      | **NEW** Interactive 3D Solar System Skills visualization. |
+| `SimpleNavbar.jsx`           | Basic top navigation bar.                                 |
+| `Softs.jsx`                  | "Soft Skills" or "Updates" section.                       |
+| `Timeline.jsx`               | Vertical timeline component.                              |
+| `VisitorTracker.jsx`         | Invisible component that tracks user visits.              |
 
 ### `frontend/src/components/ui/`
 
 Specialized UI Library Components.
 
-| File                     | Description                          |
-| :----------------------- | :----------------------------------- |
-| `BackgroundGradient.jsx` | Fancy gradient background container. |
-| `beams-background.tsx`   | Rays/Beams light effect background.  |
-| `CardStack.jsx`          | Stacked card animation component.    |
-| `Globe.jsx`              | 3D Interactive World Globe.          |
+| File                     | Description                                        |
+| :----------------------- | :------------------------------------------------- |
+| `AuroraBackground.jsx`   | **NEW** Premium Aurora Borealis background effect. |
+| `AuroraBackground.css`   | CSS styles for the Aurora animation.               |
+| `BackgroundGradient.jsx` | Fancy gradient background container.               |
+| `beams-background.tsx`   | Rays/Beams light effect background.                |
+| `CardStack.jsx`          | Stacked card animation component (Legacy).         |
+| `Globe.jsx`              | 3D Interactive World Globe.                        |

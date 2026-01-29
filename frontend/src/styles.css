@@ -1648,13 +1648,14 @@ section {
   color: white;
   font-size: 1.2rem;
   cursor: pointer;
-  z-index: 100;
+  z-index: 999; /* Increased to ensure it's above everything */
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
   transition: all 0.3s ease;
+  pointer-events: auto; /* Force clickable */
 }
 
 .create-post-trigger:hover {
@@ -3692,4 +3693,157 @@ section {
   .floating-dock-mobile {
     display: none;
   }
+}
+
+/* --- FIXES FOR USER FEEDBACK (Softs, Modal, Plus Button) --- */
+
+/* 1. Feed Header Fix: Proper Container for Title + Button */
+.feed-header {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+  width: 100%;
+  padding: 0 1rem;
+  min-height: 60px;
+}
+
+/* Ensure title doesn't block clicks */
+.feed-header .section-title {
+  margin: 0 !important; /* Remove big margins to fit in flex */
+  position: relative;
+  z-index: 1; 
+  pointer-events: none; /* Let clicks pass through if text box overlaps button */
+}
+
+/* 2. Plus Button (Create Post Trigger) Fix */
+.create-post-trigger {
+  position: absolute;
+  right: 1rem; /* Adjust position */
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: white;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  z-index: 50; /* High Z-Index to be clickable */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.create-post-trigger:hover {
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 8px 25px rgba(99, 102, 241, 0.6);
+}
+
+.create-post-trigger svg {
+  pointer-events: none; /* Ensure icon doesn't block button click */
+}
+
+/* 3. Create Post Modal Size Fix */
+.create-post-modal {
+  background: linear-gradient(145deg, #18181b, #09090b);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1.5rem;
+  padding: 2rem;
+  width: 90%;
+  max-width: 500px;
+  /* Minimize Height Logic */
+  max-height: 80vh; 
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Ensure Modal Overlay is ABOVE Floating Dock (Dock z-index might be 1000) */
+.modal-overlay {
+  z-index: 10001 !important; /* Force high z-index */
+  padding-bottom: 80px; /* Safe space from bottom dock just in case */
+}
+
+/* Additional Styles for Form elements */
+.category-select, .caption-input {
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  font-family: inherit;
+  margin-top: 0.5rem;
+  outline: none;
+}
+
+.category-select:focus, .caption-input:focus {
+  border-color: var(--primary-color);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.caption-input {
+  resize: none;
+  height: 100px;
+}
+
+/* Upload Area */
+.media-upload-section {
+  margin: 1.5rem 0;
+}
+
+.upload-placeholder {
+  border: 2px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.upload-placeholder:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+  background: rgba(99, 102, 241, 0.05);
+}
+
+.media-preview {
+  position: relative;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.preview-content {
+  width: 100%;
+  max-height: 250px;
+  object-fit: cover;
+  background: black;
+}
+
+.remove-media-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.6);
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

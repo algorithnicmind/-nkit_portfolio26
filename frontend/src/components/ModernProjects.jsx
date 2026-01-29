@@ -4,28 +4,30 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExternalLinkAlt, faTimes, faMousePointer } from '@fortawesome/free-solid-svg-icons';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
-import { CardStack } from './ui/CardStack';
+
 
 const ModernProjects = () => {
     const [selectedProject, setSelectedProject] = useState(null);
 
-    // Lock body scroll when modal is open
+    // Lock body scroll (and Lenis) when modal is open
     useEffect(() => {
         if (selectedProject) {
             document.body.style.overflow = 'hidden';
-            document.documentElement.style.overflow = 'hidden'; // Lock html too
+            document.documentElement.style.overflow = 'hidden';
+            if (window.lenis) window.lenis.stop();
         } else {
             document.body.style.overflow = 'unset';
             document.documentElement.style.overflow = 'unset';
+            if (window.lenis) window.lenis.start();
         }
         return () => { 
             document.body.style.overflow = 'unset'; 
             document.documentElement.style.overflow = 'unset';
+            if (window.lenis) window.lenis.start();
         };
     }, [selectedProject]);
 
     const projects = [
-        // ... (data remains same, no change needed here)
         {
             id: 1,
             title: 'Voice Assistant AI',
@@ -59,11 +61,11 @@ const ModernProjects = () => {
             demoLink: '#',
             repoLink: '#'
         },
+        // Add more projects here as needed
     ];
 
-
     return (
-        <section id="projects" className="modern-projects-section" style={{ overflow: 'hidden' }}>
+        <section id="projects" className="modern-projects-section">
             <div className="container">
                 <motion.h2
                     className="section-title"
@@ -75,101 +77,51 @@ const ModernProjects = () => {
                     Featured Projects
                 </motion.h2>
 
-                <div style={{ 
-                    height: '580px', 
-                    width: '100%', 
-                    maxWidth: '400px', 
-                    margin: '0 auto', 
-                    marginTop: '2rem',
-                    position: 'relative'
-                }}>
-                    <CardStack 
-                        items={projects} 
-                        offset={25} 
-                        scaleFactor={0.08}
-                        renderItem={(project, isActive) => (
-                            <div className="project-stack-card" style={{
-                                backgroundColor: '#18181b',
-                                border: '1px solid rgba(255,255,255,0.1)',
-                                borderRadius: '24px',
-                                padding: '1.5rem',
-                                height: '100%',
-                                display: 'flex',
-                                flexDirection: 'column',
-                                justifyContent: 'space-between',
-                                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
-                                overflow: 'hidden'
-                            }}>
-                                <div>
-                                    <div className="project-category-badge" style={{ alignSelf: 'flex-start', marginBottom: '0.75rem' }}>
-                                        {project.category}
-                                    </div>
-                                    <h3 className="project-title-large" style={{ fontSize: '1.5rem', marginBottom: '0.75rem', lineHeight: '1.2' }}>
-                                        {project.title}
-                                    </h3>
-                                    <p style={{ color: '#a1a1aa', fontSize: '0.9rem', lineHeight: '1.5', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                                        {project.description}
-                                    </p>
-                                </div>
-                                
-                                <div style={{ marginTop: 'auto' }}>
-                                    <div className="project-tech-stack" style={{ marginBottom: '1rem' }}>
-                                        {project.technologies.slice(0, 3).map((tech, i) => (
-                                            <span key={i} className="tech-pill" style={{ fontSize: '0.75rem', padding: '0.25rem 0.75rem' }}>{tech}</span>
-                                        ))}
-                                    </div>
-
-                                    {isActive ? (
-                                        <motion.button 
-                                            className="project-btn"
-                                            style={{ 
-                                                width: '100%', 
-                                                justifyContent: 'center', 
-                                                background: 'rgba(255, 255, 255, 0.05)', 
-                                                border: '1px solid rgba(255, 255, 255, 0.2)',
-                                                padding: '0.8rem',
-                                                backdropFilter: 'blur(10px)',
-                                                color: '#fff',
-                                                fontWeight: '500',
-                                                letterSpacing: '0.5px'
-                                            }}
-                                            whileHover={{ 
-                                                scale: 1.02, 
-                                                backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                                                borderColor: 'rgba(255, 255, 255, 0.4)'
-                                            }}
-                                            whileTap={{ scale: 0.98 }}
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                setSelectedProject(project);
-                                            }}
-                                        >
-                                            <FontAwesomeIcon icon={faMousePointer} style={{ fontSize: '0.8rem' }} />
-                                            Click Me Here
-                                        </motion.button>
-                                    ) : (
-                                        <div style={{ 
-                                            textAlign: 'center', 
-                                            color: '#52525b', 
-                                            fontSize: '0.9rem',
-                                            fontStyle: 'italic',
-                                            padding: '0.8rem'
-                                        }}>
-                                            Next Project
-                                        </div>
-                                    )}
-                                </div>
+                {/* Replaced CardStack with Responsive Premium Grid for Scalability */}
+                <div className="modern-projects-grid">
+                    {projects.map((project, index) => (
+                        <motion.div
+                            key={project.id}
+                            className="premium-project-card"
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5, delay: index * 0.1 }}
+                            onClick={() => setSelectedProject(project)}
+                            style={{ cursor: 'pointer' }}
+                        >
+                            {/* Card Content using CSS classes defined in styles.css */}
+                            <div className="project-category-badge">{project.category}</div>
+                            
+                            <div className="project-card-content">
+                                <h3 className="project-title-large">{project.title}</h3>
+                                <p className="project-description-text">
+                                    {project.description}
+                                </p>
                             </div>
-                        )}
-                    />
+
+                            <div className="project-tech-stack">
+                                {project.technologies.slice(0, 3).map((tech, i) => (
+                                    <span key={i} className="tech-pill">{tech}</span>
+                                ))}
+                            </div>
+
+                            <div className="project-actions-footer">
+                                <button className="project-btn demo">
+                                     <FontAwesomeIcon icon={faMousePointer} style={{ marginRight: '8px' }} />
+                                     View Details
+                                </button>
+                            </div>
+                        </motion.div>
+                    ))}
                 </div>
 
                 <p style={{ textAlign: 'center', marginTop: '3rem', color: '#71717a' }}>
-                    Tap the stack to cycle through projects
+                    More projects coming soon...
                 </p>
             </div>
 
-            {/* Project Details Modal - Rendered via Portal to avoid stacking context issues */}
+            {/* Project Details Modal via Portal */}
             {ReactDOM.createPortal(
                 <AnimatePresence>
                     {selectedProject && (
@@ -180,7 +132,7 @@ const ModernProjects = () => {
                             exit={{ opacity: 0 }}
                             onClick={() => setSelectedProject(null)}
                             style={{ 
-                                zIndex: 9999, // Extremely high z-index
+                                zIndex: 10002, // Higher than everything
                                 display: 'flex', 
                                 alignItems: 'center', 
                                 justifyContent: 'center',
@@ -194,78 +146,60 @@ const ModernProjects = () => {
                             }}
                         >
                             <motion.div 
-                                className="create-post-modal" 
+                                className="create-post-modal" // Reusing the clean modal style
                                 style={{ 
-                                    maxWidth: '600px', 
-                                    width: '90%', 
-                                    maxHeight: '90vh', 
-                                    overflowY: 'auto', 
-                                    position: 'relative',
-                                    zIndex: 10000 
+                                    maxWidth: '700px', // Wider for project details
                                 }}
                                 initial={{ scale: 0.9, opacity: 0, y: 20 }}
                                 animate={{ scale: 1, opacity: 1, y: 0 }}
                                 exit={{ scale: 0.9, opacity: 0, y: 20 }}
                                 onClick={(e) => e.stopPropagation()}
                             >
-                                <div className="modal-header" style={{ padding: '1.5rem', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-                                    <h3 style={{ margin: 0, fontSize: '1.5rem' }}>{selectedProject.title}</h3>
+                                <div className="modal-header">
+                                    <h3 style={{ margin: 0, fontSize: '1.8rem' }}>{selectedProject.title}</h3>
                                     <button 
                                         className="modal-close-btn" 
                                         onClick={() => setSelectedProject(null)}
-                                        style={{ 
-                                            position: 'absolute',
-                                            top: '1rem',
-                                            right: '1rem',
-                                            background: 'rgba(255,255,255,0.1)',
-                                            border: 'none',
-                                            color: 'white',
-                                            width: '32px',
-                                            height: '32px',
-                                            borderRadius: '50%',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            cursor: 'pointer',
-                                            zIndex: 10
-                                        }}
+                                        style={{ position: 'relative', top: 'unset', right: 'unset' }}
                                     >
                                         <FontAwesomeIcon icon={faTimes} />
                                     </button>
                                 </div>
 
-                                <div style={{ padding: '1.5rem' }}>
+                                <div>
                                     <img 
                                         src={selectedProject.image} 
                                         alt={selectedProject.title}
                                         style={{ 
                                             width: '100%', 
-                                            height: '250px', 
+                                            height: '300px', 
                                             objectFit: 'cover', 
                                             borderRadius: '12px',
-                                            marginBottom: '1.5rem'
+                                            marginBottom: '1.5rem',
+                                            border: '1px solid rgba(255,255,255,0.1)'
                                         }} 
                                     />
                                     
-                                    <div className="project-category-badge" style={{ marginBottom: '1rem' }}>
+                                    <div className="project-category-badge" style={{ position: 'static', display: 'inline-block', marginBottom: '1rem' }}>
                                         {selectedProject.category}
                                     </div>
 
-                                    <p style={{ color: '#e4e4e7', lineHeight: '1.6', marginBottom: '1.5rem' }}>
+                                    <p style={{ color: '#e4e4e7', lineHeight: '1.7', marginBottom: '2rem', fontSize: '1.05rem' }}>
                                         {selectedProject.fullDescription}
                                     </p>
 
+                                    <h4 style={{ color: 'white', marginBottom: '1rem' }}>Technologies</h4>
                                     <div className="project-tech-stack" style={{ marginBottom: '2rem' }}>
                                         {selectedProject.technologies.map((tech, i) => (
                                             <span key={i} className="tech-pill">{tech}</span>
                                         ))}
                                     </div>
 
-                                    <div className="project-actions-footer">
-                                        <a href={selectedProject.repoLink} className="project-btn source" target="_blank" rel="noopener noreferrer">
-                                            <FontAwesomeIcon icon={faGithub} /> Code
+                                    <div className="project-actions-footer" style={{ borderTop: 'none', padding: 0 }}>
+                                        <a href={selectedProject.repoLink} className="project-btn source" target="_blank" rel="noopener noreferrer" style={{ padding: '0.8rem 1.5rem', background: 'rgba(255,255,255,0.05)', borderRadius: '8px' }}>
+                                            <FontAwesomeIcon icon={faGithub} /> Source Code
                                         </a>
-                                        <a href={selectedProject.demoLink} className="project-btn demo" target="_blank" rel="noopener noreferrer">
+                                        <a href={selectedProject.demoLink} className="project-btn demo" target="_blank" rel="noopener noreferrer" style={{ padding: '0.8rem 1.5rem', background: 'rgba(99, 102, 241, 0.1)', borderRadius: '8px', border: '1px solid rgba(99, 102, 241, 0.3)' }}>
                                             <FontAwesomeIcon icon={faExternalLinkAlt} /> Live Demo
                                         </a>
                                     </div>

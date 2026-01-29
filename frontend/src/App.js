@@ -4,20 +4,23 @@ import Lenis from 'lenis';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import SimpleNavbar from './components/SimpleNavbar';
 import FloatingDock from './components/FloatingDock';
-import GravityStarsBackground from './components/GravityStarsBackground';
+import { AuroraBackground } from './components/ui/AuroraBackground';
 import VisitorTracker from './components/VisitorTracker';
-import ModernContact from './components/ModernContact';
+
 import ModernHero from './components/ModernHero';
-import ModernAbout from './components/ModernAbout';
-import Experience from './components/Experience';
-import Educations from './components/Educations';
-import SolarSystemSkills from './components/SolarSystemSkills';
-import ModernProjects from './components/ModernProjects';
 import Footer from './components/Footer';
 import Softs from './components/Softs';
 import Chatbot from './components/Chatbot';
 import LoginModal from './components/LoginModal';
 import AnalyticsPage from './components/AnalyticsPage';
+
+// Lazy load components below the fold for performance
+const ModernAbout = React.lazy(() => import('./components/ModernAbout'));
+const Experience = React.lazy(() => import('./components/Experience'));
+const Educations = React.lazy(() => import('./components/Educations'));
+const SolarSystemSkills = React.lazy(() => import('./components/SolarSystemSkills'));
+const ModernProjects = React.lazy(() => import('./components/ModernProjects'));
+const ModernContact = React.lazy(() => import('./components/ModernContact'));
 
 
 function App() {
@@ -84,6 +87,8 @@ function App() {
       touchMultiplier: 2,
     });
 
+    window.lenis = lenis; // Expose for components
+
     function raf(time) {
       lenis.raf(time);
       requestAnimationFrame(raf);
@@ -93,6 +98,7 @@ function App() {
 
     return () => {
       lenis.destroy();
+      window.lenis = null;
     };
   }, []);
 
@@ -111,23 +117,21 @@ function App() {
 
   return (
     <div className="App">
-      <GravityStarsBackground
-        starsCount={100}
-        gravityStrength={1}
-        mouseInfluence={250}
-      />
+      <AuroraBackground />
       <SimpleNavbar />
       <div className="page-content">
         <Routes>
           <Route path="/" element={
             <>
               <ModernHero />
-              <ModernAbout />
-              <Experience />
-              <Educations />
-              <SolarSystemSkills />
-              <ModernProjects />
-              <ModernContact />
+              <Suspense fallback={null}>
+                <ModernAbout />
+                <Experience />
+                <Educations />
+                <SolarSystemSkills />
+                <ModernProjects />
+                <ModernContact />
+              </Suspense>
             </>
           } />
           <Route path="/softs" element={
