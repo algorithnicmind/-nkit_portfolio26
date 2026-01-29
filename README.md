@@ -33,13 +33,18 @@ A high-level overview of the repository structure to help you navigate:
 ```bash
 📂 -nkit_portfolio26/
 ├── 📂 backend_auth/           # 🤖 Backend logic, Authentication & Chatbot services
-│   └── chatbot.py
+│   ├── chatbot.py             #    Main Flask server entry point
+│   ├── whatsapp_service.py    #    WhatsApp notification service (NEW)
+│   ├── check_contacts.py      #    View contact submissions utility
+│   └── check_whatsapp.py      #    Check WhatsApp config utility
 ├── 📂 database_architecture/  # 🗄️ Database connections and schema models
-│   └── connection.py
+│   ├── connection.py          #    MongoDB Atlas connection
+│   ├── models.py              #    Data models (Contact, Projects, etc.)
+│   └── portfolio_service.py   #    Business logic with WhatsApp integration
 ├── 📂 frontend/               # ⚛️ React Frontend Application
 │   ├── 📂 public/             #    Static assets (Images, Icons)
 │   └── 📂 src/                #    Source code
-│       ├── 📂 components/     #    Reusable UI components (ModernHero, Contact, etc.)
+│       ├── 📂 components/     #    Reusable UI components
 │       ├── 📂 data/           #    Static data files (globe.json)
 │       └── 📜 App.js
 ├── 📂 docs/                   # 📄 Project documentation
@@ -53,9 +58,11 @@ A high-level overview of the repository structure to help you navigate:
 
 - **Interactive UI/UX**: Powered by **Framer Motion** for smooth transitions and **Three.js** (via Globe) for 3D visualizations.
 - **AI Chatbot**: Integrated conversational agent located in `backend_auth`.
-- **Secure Contact Form**: Protected by **Cloudflare Turnstile** and integrated with backend email services.
+- **Secure Contact Form**: Protected by **Cloudflare Turnstile**, saves to MongoDB, and sends WhatsApp notifications.
+- **WhatsApp Notifications**: Get instant alerts on WhatsApp when someone submits the contact form.
 - **Visitor Tracking**: Analytics implementation for monitoring traffic.
 - **Responsive Design**: Fully optimized for mobile, tablet, and desktop viewing.
+- **Solar System Skills**: Interactive skill visualization with orbiting technology icons.
 
 ---
 
@@ -73,12 +80,22 @@ Follow these steps to set up the project locally.
 
 1.  Navigate to the root directory.
 2.  Create a `.env` file with the following:
+
     ```env
     MONGODB_CONNECTION_STRING=your_mongodb_string
     JWT_SECRET=your_jwt_secret
     ADMIN_USERNAME=admin
     ADMIN_PASSWORD=password
+
+    # Cloudflare Turnstile (for contact form security)
+    REACT_APP_TURNSTILE_SITE_KEY=your_site_key
+    TURNSTILE_SECRET_KEY=your_secret_key
+
+    # WhatsApp Notifications (optional)
+    WHATSAPP_PHONE_NUMBER=91XXXXXXXXXX
+    CALLMEBOT_APIKEY=your_callmebot_api_key
     ```
+
 3.  Install dependencies and run:
 
     ```bash

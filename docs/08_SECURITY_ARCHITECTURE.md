@@ -49,7 +49,24 @@ This document details the enterprise-grade security measures and advanced archit
 - **The Tech**: Custom IP Anonymization (implied).
 - **The Defense**: We track visits for Analytics without storing invasive personal data, keeping you compliant with basic privacy standards while giving you actionable insights.
 
-## 8. 🛡️ Secure HTTP Headers (Meta Data)
+## 8. 📱 WhatsApp Contact Notifications
+
+- **The Tech**: CallMeBot WhatsApp API integration with console fallback logging.
+- **The Feature**: When someone submits the contact form, you receive an instant WhatsApp notification with:
+  - Sender's Name & Email
+  - Message Subject & Content
+  - Timestamp
+- **Security Measures**:
+  - **API Key in `.env`**: CallMeBot API key is stored securely, not in source code.
+  - **Graceful Fallback**: If WhatsApp fails, notifications are still logged to console with a clickable WhatsApp link.
+  - **No User Data Exposed**: Only the portfolio owner receives notifications; user data stays in the database.
+- **Admin Utilities**:
+  ```bash
+  python backend_auth/check_contacts.py   # View all contact submissions
+  python backend_auth/check_whatsapp.py   # Verify WhatsApp configuration
+  ```
+
+## 9. 🛡️ Secure HTTP Headers (Meta Data)
 
 - **The Tech**: HTML Meta Tags (`X-Frame-Options`, `X-XSS-Protection`).
 - **The Defense**: Hardens the browser against client-side attacks.
@@ -57,7 +74,7 @@ This document details the enterprise-grade security measures and advanced archit
   - **Anti-Clickjacking**: `X-Frame-Options: DENY` stops other sites from embedding your portfolio in a hidden iframe to steal clicks.
   - **Sniff Protection**: `X-Content-Type-Options: nosniff` forces the browser to respect file types, preventing some XSS attacks.
 
-## 9. 🚀 Future Security Roadmap (Recommendations)
+## 10. 🚀 Future Security Roadmap (Recommendations)
 
 To take security to the absolute maximum level, here are the next recommended upgrades:
 

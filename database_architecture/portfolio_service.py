@@ -3,22 +3,50 @@ Service layer for contact form submissions only
 """
 from database_architecture.models import ContactSubmission, SoftPost
 
+# Import WhatsApp notification service
+try:
+    import sys
+    import os
+    sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    from backend_auth.whatsapp_service import send_contact_notification
+    WHATSAPP_ENABLED = True
+except ImportError as e:
+    print(f"⚠️ WhatsApp service not available: {e}")
+    WHATSAPP_ENABLED = False
+    def send_contact_notification(*args, **kwargs):
+        return {'success': False, 'message': 'WhatsApp service not available'}
+
 class PortfolioService:
 
     @staticmethod
     def submit_contact_form(name, email, subject, message):
         """
-        Handle contact form submission with database confirmation
+        Handle contact form submission with database confirmation and WhatsApp notification
         """
         try:
+            # Save to database first
             submission_id = ContactSubmission.save_contact_submission(
                 name, email, subject, message
             )
+            
+            # Send WhatsApp notification (non-blocking - don't fail if notification fails)
+            whatsapp_result = {'success': False, 'message': 'Not attempted'}
+            if WHATSAPP_ENABLED:
+                try:
+                    whatsapp_result = send_contact_notification(name, email, subject, message)
+                    if whatsapp_result['success']:
+                        print(f"📱 WhatsApp notification sent for contact from {name}")
+                    else:
+                        print(f"⚠️ WhatsApp notification failed: {whatsapp_result.get('message')}")
+                except Exception as wa_error:
+                    print(f"⚠️ WhatsApp notification error: {wa_error}")
+            
             return {
                 "success": True,
                 "submission_id": str(submission_id),
                 "message": "Thank you for your message! Your data has been saved successfully. I will get back to you soon.",
-                "data_saved": True
+                "data_saved": True,
+                "whatsapp_notified": whatsapp_result.get('success', False)
             }
         except Exception as e:
             print(f"Error submitting contact form: {e}")
