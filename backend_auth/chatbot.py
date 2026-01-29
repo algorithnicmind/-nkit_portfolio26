@@ -13,7 +13,18 @@ load_dotenv()
 
 app = Flask(__name__)
 # Enable CORS for React frontend (allow localhost:3000)
-CORS(app, resources={r"/*": {"origins": ["http://localhost:3000", "http://127.0.0.1:3000"]}})
+# Enable CORS for React frontend (allow localhost and production domain)
+allowed_origins = ["http://localhost:3000", "http://127.0.0.1:3000"]
+frontend_url = os.getenv('FRONTEND_URL')
+if frontend_url:
+    allowed_origins.append(frontend_url)
+    # Handle potentially missing or extra trailing slashes just in case
+    if frontend_url.endswith('/'):
+        allowed_origins.append(frontend_url[:-1])
+    else:
+        allowed_origins.append(frontend_url + '/')
+
+CORS(app, resources={r"/*": {"origins": allowed_origins}})
 
 # Import portfolio routes
 from database_architecture.portfolio_api import register_portfolio_routes
