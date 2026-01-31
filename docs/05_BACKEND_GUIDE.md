@@ -49,9 +49,8 @@ The backend is a **RESTful API** built with **Flask**. It is stateless and uses 
   - **Logic**:
     1. Validates Turnstile CAPTCHA to prevent spam
     2. Saves message to MongoDB `contact_submissions` collection
-    3. Sends WhatsApp notification (if CallMeBot API key is configured)
-    4. Logs notification to console with WhatsApp click-to-chat link
-  - **Response**: `{ "success": true, "message": "Thank you...", "whatsapp_notified": true/false }`
+    3. Logs contact submission to console
+  - **Response**: `{ "success": true, "message": "Thank you..." }`
 
 ## 🗄️ Database (MongoDB)
 

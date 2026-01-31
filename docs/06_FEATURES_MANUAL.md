@@ -52,23 +52,13 @@ _Requires Admin Login._
 
 1. **Database**: Message is saved to MongoDB `contact_submissions` collection
 2. **Console**: Notification appears in backend terminal with all details
-3. **WhatsApp**: If CallMeBot API is configured, auto-sends to your WhatsApp
 
 ### Admin Tools for Contact Management:
 
 ```bash
 # View recent contact submissions
 python backend_auth/check_contacts.py
-
-# Check WhatsApp notification configuration
-python backend_auth/check_whatsapp.py
 ```
-
-### WhatsApp Notification Setup (Optional):
-
-1. Add CallMeBot to WhatsApp: `+34 644 51 95 23`
-2. Send message: `I allow callmebot to send me messages`
-3. Add API key to `.env`: `CALLMEBOT_APIKEY=your_key_here`
 
 ## 📱 Mobile Navigation
 

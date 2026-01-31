@@ -218,9 +218,9 @@ const ModernContact = () => {
                 <div className="turnstile-wrapper">
                   <Turnstile
                     siteKey={process.env.REACT_APP_TURNSTILE_SITE_KEY}
-                    injectScript={false}
                     onSuccess={(token) => setTurnstileToken(token)}
                     onError={() => setSubmitStatus({ show: true, success: false, message: 'Security check failed to load.' })}
+                    options={{ theme: 'dark', size: 'normal' }}
                   />
                 </div>
 

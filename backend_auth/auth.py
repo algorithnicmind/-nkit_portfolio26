@@ -97,7 +97,9 @@ def register_auth_routes(app, db):
         storage_uri="memory://"
     )
     
-    users_collection = db.users
+    users_collection = None
+    if db is not None:
+        users_collection = db.users
     
     @app.route('/api/auth/login', methods=['POST'])
     @limiter.limit("5 per minute")  # Rate limit: 5 login attempts per minute
@@ -131,6 +133,36 @@ def register_auth_routes(app, db):
                         'success': False,
                         'error': 'Server misconfiguration: Admin credentials not set'
                     }), 500
+
+                # INTEGRATION: Cloudflare Turnstile Security Verification
+                turnstile_token = data.get('cf_token')
+                turnstile_secret = os.getenv('TURNSTILE_SECRET_KEY')
+                
+                # Only verify if secret is set (allows dev without it, but highly recommended)
+                if turnstile_secret:
+                    if not turnstile_token:
+                        return jsonify({
+                            'success': False,
+                            'error': 'Security check failed: No Cloudflare token provided'
+                        }), 400
+                        
+                    # Verify token with Cloudflare
+                    import requests
+                    verify_response = requests.post(
+                        'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+                        data={
+                            'secret': turnstile_secret,
+                            'response': turnstile_token,
+                            'remoteip': request.remote_addr
+                        }
+                    )
+                    verify_result = verify_response.json()
+                    
+                    if not verify_result.get('success', False):
+                         return jsonify({
+                            'success': False,
+                            'error': 'Security check failed: Invalid Cloudflare token'
+                        }), 401
 
                 if username == admin_username and password == admin_password:
                     # Create a mock user object for the token

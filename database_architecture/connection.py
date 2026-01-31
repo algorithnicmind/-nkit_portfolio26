@@ -19,7 +19,7 @@ def get_database():
 
         # Create MongoDB client
         # FIX: Bypass SSL verification for local dev environments where certificates fail
-        client = MongoClient(connection_string, tls=True, tlsAllowInvalidCertificates=True)
+        client = MongoClient(connection_string, tls=True, tlsAllowInvalidCertificates=True, serverSelectionTimeoutMS=5000)
 
         # Test the connection
         client.admin.command('ping')

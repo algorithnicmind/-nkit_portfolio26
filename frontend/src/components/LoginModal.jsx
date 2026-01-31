@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faUser, faLock, faSignInAlt, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { Turnstile } from '@marsidev/react-turnstile';
 import '../styles.css';
 
 // Backend API URL
@@ -11,6 +12,7 @@ const LoginModal = ({ isOpen, onClose, onLogin }) => {
     // Pre-fill default credentials for convenience
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [turnstileToken, setTurnstileToken] = useState('');
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
@@ -28,7 +30,8 @@ const LoginModal = ({ isOpen, onClose, onLogin }) => {
                 },
                 body: JSON.stringify({
                     username: username.trim(),
-                    password: password
+                    password: password,
+                    cf_token: turnstileToken
                 }),
             });
 
@@ -124,6 +127,17 @@ const LoginModal = ({ isOpen, onClose, onLogin }) => {
                                         required
                                     />
                                 </div>
+                                
+                                {/* INTEGRATION: Cloudflare Turnstile Widget */}
+                                {process.env.REACT_APP_TURNSTILE_SITE_KEY && (
+                                    <div style={{ marginBottom: '1rem', display: 'flex', justifyContent: 'center' }}>
+                                        <Turnstile 
+                                            siteKey={process.env.REACT_APP_TURNSTILE_SITE_KEY}
+                                            onSuccess={(token) => setTurnstileToken(token)}
+                                            options={{ theme: 'dark', size: 'normal' }}
+                                        />
+                                    </div>
+                                )}
 
                                 {error && <p className="error-message">{error}</p>}
 

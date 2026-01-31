@@ -25,9 +25,7 @@ Core Server Logic.
 | `analytics.py`            | Tracks visitor data (IP, Location, Device) and provides stats for the dashboard.          |
 | `auth.py`                 | Handles Admin Authentication, JWT Token generation, and Rate Limiting.                    |
 | `chatbot.py`              | **MAIN SERVER ENTRY POINT**. Initializes Flask, connects routes, and handles Chatbot API. |
-| `whatsapp_service.py`     | **NEW** WhatsApp notification service for contact form submissions.                       |
 | `check_contacts.py`       | **NEW** Utility script to view recent contact form submissions from database.             |
-| `check_whatsapp.py`       | **NEW** Utility script to check WhatsApp notification configuration status.               |
 | `migrate_chatbot_data.py` | Utility script to seed the MongoDB database with initial Q&A pairs.                       |
 | `setup_admin.py`          | Utility script to manually create an admin user in the database.                          |
 | `test_db.py`              | Simple script to test if the MongoDB connection is working.                               |

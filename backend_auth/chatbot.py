@@ -12,6 +12,11 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = Flask(__name__)
+# INTEGRATION: Cloudflare Security - Handle Proxy Headers
+from werkzeug.middleware.proxy_fix import ProxyFix
+app.wsgi_app = ProxyFix(
+    app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1
+)
 # Enable CORS for React frontend (allow localhost:3000)
 # Enable CORS for React frontend (allow localhost and production domain)
 allowed_origins = ["http://localhost:3000", "http://127.0.0.1:3000"]
