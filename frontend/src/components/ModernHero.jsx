@@ -128,6 +128,7 @@ const ModernHero = () => {
           <div className="hero-content">
             {/* Text Content */}
             <motion.div className="hero-text" variants={itemVariants}>
+
               <motion.h1
                 className="hero-title"
                 initial={{ opacity: 0, y: 50 }}
@@ -140,7 +141,7 @@ const ModernHero = () => {
                   initial={{ opacity: 0, scale: 0.5 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.8, delay: 0.5 }}
-                  whileHover={{ scale: 1.1 }}
+                  whileHover={{ scale: 1.05 }}
                 >
                   Ankit Sahoo
                 </motion.span>

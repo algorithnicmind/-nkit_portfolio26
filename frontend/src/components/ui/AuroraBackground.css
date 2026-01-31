@@ -27,9 +27,12 @@
     background-image: var(--dark-gradient), var(--aurora);
     background-size: 300% 200%;
     background-position: 50% 50%, 50% 50%;
-    animation: aurora 60s linear infinite;
+    animation: aurora 90s linear infinite; /* Slower = smoother */
     pointer-events: none;
-    will-change: transform;
+    /* GPU Acceleration */
+    will-change: background-position;
+    transform: translateZ(0);
+    backface-visibility: hidden;
     
     --aurora: repeating-linear-gradient(
         100deg,
@@ -58,7 +61,10 @@
     background-size: 200% 100%;
     background-attachment: fixed;
     mix-blend-mode: difference;
-    animation: aurora 60s linear infinite;
+    animation: aurora 90s linear infinite; /* Match parent speed */
+    /* GPU Acceleration */
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
 @keyframes aurora {

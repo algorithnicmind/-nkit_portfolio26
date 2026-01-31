@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { EncryptedText } from './ui/EncryptedText';
 
 const SimpleNavbar = () => {
   const location = useLocation();
@@ -44,9 +45,15 @@ const SimpleNavbar = () => {
     <nav className="simple-navbar">
       <div className="container simple-navbar-content" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <a href="#hero" className="brand" onClick={(e) => handleNavigation(e, 'hero')}>
-          Hello World <span className="wave-emoji">👋</span>
+            <EncryptedText
+                text="Hello World"
+                revealDelayMs={100}
+                encryptedClassName="text-white opacity-50"
+                revealedClassName="text-white"
+            />
+            <span className="wave-emoji" style={{ marginLeft: '10px' }}>👋</span>
         </a>
-        
+
         <div className="navbar-clock" style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.9rem', fontWeight: '500' }}>
             <span>{formatTime(currentTime)}</span>
             <span style={{ margin: '0 8px', opacity: 0.5 }}>|</span>

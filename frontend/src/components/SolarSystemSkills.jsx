@@ -328,8 +328,15 @@ const SolarSystemSkills = () => {
                 <Canvas 
                     frameloop={inView ? "always" : "never"}
                     camera={{ position: [0, 45, 35], fov: 45 }} 
-                    dpr={[1, 2]} 
-                    gl={{ powerPreference: "high-performance" }}
+                    dpr={[1, 1.5]} /* Lower max DPR for performance */
+                    gl={{ 
+                        powerPreference: "high-performance",
+                        antialias: false, /* Disable for smoother frames */
+                        alpha: true,
+                        stencil: false,
+                        depth: true
+                    }}
+                    performance={{ min: 0.5 }} /* Frame budgeting */
                 >
                     <SolarSystemScene onPlanetSelect={setSelectedSkill} />
                 </Canvas>
